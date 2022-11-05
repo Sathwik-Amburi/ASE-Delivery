@@ -7,11 +7,13 @@ import const
 import datetime
 import time
 
+
 class LEDState(Enum):
     OFF = 0
     RED = 1
     GREEN = 2
-    
+
+
 class LightState:
     DARK = 0
     LIGHT = 1
@@ -25,6 +27,7 @@ class BoxState(Enum):
 class PersonType(Enum):
     DELIVERER = 0
     CUSTOMER = 1
+    ANY = 2
 
 
 class ServerCommunicator:
@@ -81,6 +84,13 @@ class HardwareController:
         else:
             raise RuntimeError(f"LEADState {state} is not implemented")
 
+    def blink_for(self, state: LEDState, duration: int) -> None:
+        for _ in range(duration):
+            self.switch_led(state)
+            time.sleep(0.5)
+            self.switch_led(LEDState.OFF)
+            time.sleep(0.5)
+
     @staticmethod
     def check_box_state() -> BoxState:
         result = GPIO.input(const.HW_LEG_SENSOR)  # TODO what dose 'input()' return? Float?
@@ -97,36 +107,33 @@ def check_RFID_name(controller: HardwareController,
     result = communicator.check_person_name(name=name, p_type=p_type)
     return result
 
-def blink_for(state: LEDState, duration: int) -> None:
-    for _ in range(duration):
-        switch_led(state)
-        time.sleep(0.5)
-        switch_led(LEDState.OFF)
-        time.sleep(0.5)
-        
+
 def handle_user() -> bool:
-    while datetime.now() - time_opened < 10: # 10s have passed since opening the box
+    while datetime.now() - time_opened < 10:  # 10s have passed since opening the box
         time.sleep(0.25)
-                        
-        if check_box_state() == BoxState.CLOSED: # box is closed
+
+        if check_box_state() == BoxState.CLOSED:  # box is closed
             update_box_status()
             return true
-                
+
     return false
 
 
 def main_loop():
+    controller = HardwareController()
+    communicator = ServerCommunicator(
+        server_address=const.SERVER_ADDRESS,
+        rasp_name=const.RASP_NAME,
+        rasp_pass=const.RASP_PASS)
     while True:
-        id, text = reader.read()
-        if check_deliverer() or check_customer():
+        if check_RFID_name(controller=controller, communicator=communicator, p_type=PersonType.ANY):
             time_opened = datetime.now()
-            switch_led(LEDState.GREEN)
-            
+            controller.switch_led(LEDState.GREEN)
+
             if !handle_user():
-                blink_for(LEDState.RED, 5)
-                
-            switch_led(LEDState.OFF)
-                                
+                controller.blink_for(LEDState.RED, 5)
+
+            controller.switch_led(LEDState.OFF)
 
 
 if __name__ == '__main__':
