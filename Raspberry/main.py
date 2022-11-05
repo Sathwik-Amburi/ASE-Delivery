@@ -36,7 +36,7 @@ class ServerCommunicator:
             f'user "{rasp_name}" and pass "{rasp_pass}" returned {response.status_code} status code'
         )
 
-    def check_person_name(self, name: str, p_type: PersonType):
+    def check_person_name(self, name: str, p_type: PersonType) -> bool:
         if p_type == PersonType.DELIVERER:
             url = os.path.join(self.server_address, 'other/magic/path/', name)  # TODO
         else:
@@ -45,7 +45,8 @@ class ServerCommunicator:
         response = self.session.get(url)
         assert response.status_code == 200, \
             f'INFO: The response of the query "{url}" is incorrect, status_code is {response.status_code}'
-        return response
+        result = response.json()['result']
+        return result
 
     def update_box_status(self, message: str) -> None:
         """send to the backEnd 'The goods were taken' and so on"""
@@ -85,7 +86,7 @@ class HardwareController:
             return BoxState.CLOSED
 
 
-def check_RFID_name(self, controller: HardwareController,
+def check_RFID_name(controller: HardwareController,
                     communicator: ServerCommunicator,
                     p_type: PersonType) -> bool:
     name = controller.read_RFID_name()
