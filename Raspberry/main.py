@@ -2,7 +2,7 @@ import const
 from datetime import datetime
 import time
 
-from Raspberry.utils import HardwareController, ServerCommunicator, PersonType, BoxState, LEDState
+from utils import HardwareController, ServerCommunicator, PersonType, BoxState, LEDState
 
 
 def check_RFID_name(controller: HardwareController,
