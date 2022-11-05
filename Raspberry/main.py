@@ -3,14 +3,18 @@ import requests
 from enum import Enum
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-
 import const
-
+import datetime
+import time
 
 class LEDState(Enum):
     OFF = 0
     RED = 1
     GREEN = 2
+    
+class LightState:
+    DARK = 0
+    LIGHT = 1
 
 
 class BoxState(Enum):
@@ -93,9 +97,36 @@ def check_RFID_name(controller: HardwareController,
     result = communicator.check_person_name(name=name, p_type=p_type)
     return result
 
+def blink_for(state: LEDState, duration: int) -> None:
+    for _ in range(duration):
+        switch_led(state)
+        time.sleep(0.5)
+        switch_led(LEDState.OFF)
+        time.sleep(0.5)
+        
+def handle_user() -> bool:
+    while datetime.now() - time_opened < 10: # 10s have passed since opening the box
+        time.sleep(0.25)
+                        
+        if check_box_state() == BoxState.CLOSED: # box is closed
+            update_box_status()
+            return true
+                
+    return false
+
 
 def main_loop():
-    pass
+    while True:
+        id, text = reader.read()
+        if check_deliverer() or check_customer():
+            time_opened = datetime.now()
+            switch_led(LEDState.GREEN)
+            
+            if !handle_user():
+                blink_for(LEDState.RED, 5)
+                
+            switch_led(LEDState.OFF)
+                                
 
 
 if __name__ == '__main__':
