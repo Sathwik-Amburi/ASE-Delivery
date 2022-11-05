@@ -20,7 +20,7 @@ def handle_user(time_opened, controller, communicator) -> bool:
         time.sleep(0.25)
 
         if controller.check_box_state() == BoxState.CLOSED:  # box is closed
-            communicator.update_box_status()
+            communicator.update_box_status("CLOSED")
             return True
 
     return False
