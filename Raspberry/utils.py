@@ -73,6 +73,9 @@ class HardwareController:
         _, text = self.reader.read()
         return text
 
+    def write_RFID_name(self, name):
+        self.reader.write(name)
+
     @staticmethod
     def switch_led(state: LEDState) -> None:
         if state == LEDState.GREEN:
