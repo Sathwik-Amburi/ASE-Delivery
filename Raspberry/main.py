@@ -1,5 +1,6 @@
 import const
 from datetime import datetime
+from datetime import timedelta
 import time
 
 from utils import HardwareController, ServerCommunicator, PersonType, BoxState, LEDState
@@ -16,7 +17,7 @@ def check_RFID_name(controller: HardwareController,
 
 
 def handle_user(time_opened, controller, communicator) -> bool:
-    while datetime.now() - time_opened < 10:  # 10s have passed since opening the box
+    while datetime.now() - time_opened < timedelta(seconds=10):  # 10s have passed since opening the box
         time.sleep(0.25)
 
         if controller.check_box_state() == BoxState.CLOSED:  # box is closed
