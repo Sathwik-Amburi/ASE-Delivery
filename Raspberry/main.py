@@ -1,6 +1,5 @@
 import const
-from datetime import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 import time
 
 from utils import HardwareController, ServerCommunicator, PersonType, BoxState, LEDState

@@ -66,6 +66,7 @@ class HardwareController:
         GPIO.setwarnings(False)
         GPIO.setup(const.HW_LEG_RED, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(const.HW_LEG_GREEN, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(const.HW_LEG_SENSOR, GPIO.IN)
         self.reader = SimpleMFRC522()
 
     def read_RFID_name(self):
