@@ -43,6 +43,12 @@ def main_loop():
 
             controller.switch_led(LEDState.OFF)
 
+        else:
+            controller.switch_led(LEDState.GREEN)
+            time.sleep(5)
+            controller.switch_led(LEDState.OFF)
+
+
 
 if __name__ == '__main__':
     main_loop()
