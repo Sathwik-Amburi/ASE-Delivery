@@ -44,7 +44,7 @@ def main_loop():
             controller.switch_led(LEDState.OFF)
 
         else:
-            controller.switch_led(LEDState.GREEN)
+            controller.switch_led(LEDState.RED)
             time.sleep(5)
             controller.switch_led(LEDState.OFF)
 
