@@ -1,0 +1,9 @@
+# TODO
+SERVER_ADDRESS = 'https://TODO_magic/'
+RASP_NAME = 'bald_cat'
+RASP_PASS = '123'
+
+# HW = HardWare
+HW_LEG_RED = 20
+HW_LEG_GREEN = 21
+HW_LEG_SENSOR = 17
