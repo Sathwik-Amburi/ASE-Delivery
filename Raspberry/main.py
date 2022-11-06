@@ -39,7 +39,7 @@ def main_loop():
             controller.switch_led(LEDState.GREEN)
 
             if not handle_opened(time_opened, controller, communicator):
-                controller.blink_for(LEDState.RED, 5)
+                controller.blink_led(LEDState.RED, 5)
 
         else:
             controller.switch_led(LEDState.RED)

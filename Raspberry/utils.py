@@ -88,7 +88,7 @@ class HardwareController:
         else:
             raise RuntimeError(f"LEADState {state} is not implemented")
 
-    def blink_for(self, state: LEDState, duration: int) -> None:
+    def blink_led(self, state: LEDState, duration: int) -> None:
         for _ in range(duration):
             self.switch_led(state)
             time.sleep(0.5)
