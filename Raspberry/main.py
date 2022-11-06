@@ -16,12 +16,12 @@ def check_RFID_name(controller: HardwareController,
 
 
 def handle_user(time_opened, controller, communicator) -> bool:
-    while datetime.now() - time_opened < timedelta(seconds=10):  # 10s have passed since opening the box
-        time.sleep(0.25)
-
-        if controller.check_box_state() == BoxState.CLOSED:  # box is closed
+    while datetime.now() - time_opened <= timedelta(seconds=10):  # fewer than 10s have passed since opening the box
+        if controller.check_box_state() == BoxState.CLOSED:
             communicator.update_box_status("CLOSED")
             return True
+
+        time.sleep(0.25)
 
     return False
 
