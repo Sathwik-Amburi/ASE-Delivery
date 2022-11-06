@@ -49,6 +49,5 @@ def main_loop():
             controller.switch_led(LEDState.OFF)
 
 
-
 if __name__ == '__main__':
     main_loop()
