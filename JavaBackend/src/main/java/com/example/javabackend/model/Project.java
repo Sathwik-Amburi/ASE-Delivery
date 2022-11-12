@@ -1,6 +1,6 @@
 package com.example.javabackend.model;
 
-package edu.tum.ase.project.model;
+
 
 import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
