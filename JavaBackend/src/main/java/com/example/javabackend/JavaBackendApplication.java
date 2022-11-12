@@ -1,5 +1,7 @@
 package com.example.javabackend;
 
+
+// IT IS AN ENTER POINT EXAMPLE!!! WE SHOULD DELETE THIS FILE!! TODO
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
