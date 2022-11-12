@@ -38,4 +38,3 @@ public class Project {
         this.name = name;
     }
 }
-}
