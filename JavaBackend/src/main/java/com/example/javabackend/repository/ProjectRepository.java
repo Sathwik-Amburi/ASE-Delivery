@@ -1,6 +1,6 @@
 package com.example.javabackend.repository;
 
-import edu.tum.ase.project.model.Project;
+import com.example.javabackend.model.Project;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

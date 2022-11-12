@@ -1,10 +1,11 @@
 package com.example.javabackend.service;
 
-import edu.tum.ase.project.model.Project;
-import edu.tum.ase.project.repository.ProjectRepository;
+import com.example.javabackend.model.Project;
+import com.example.javabackend.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
