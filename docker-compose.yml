@@ -7,9 +7,11 @@ services:
       - 27017:27017
     volumes:
       - /data/db
+      - "$PWD/:/docker-entrypoint-initdb.d/"
     environment:
       MONGO_INITDB_DATABASE: aseProject
-      MONGO_INITDB_ROOT_USERNAME: aseAdmin
-      MONGO_INITDB_ROOT_PASSWORD: ase
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pw
+
 
 
