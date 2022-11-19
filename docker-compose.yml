@@ -12,3 +12,4 @@ services:
       MONGO_INITDB_ROOT_USERNAME: aseAdmin
       MONGO_INITDB_ROOT_PASSWORD: ase
 
+
