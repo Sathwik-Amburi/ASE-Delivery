@@ -5,6 +5,7 @@ import edu.tum.ase.project.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class ProjectService {
@@ -13,7 +14,7 @@ public class ProjectService {
 
     public Project createProject(Project project) {
         // TODO: implement
-        return null;
+        return projectRepository.save(project);  // Looks like 'save' is a default method of Spring service
     }
 
     public Project findByName(String name) {
