@@ -13,17 +13,17 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Project createProject(Project project) {
-        // TODO: implement
+        // TODO: implement (Am I right?)
         return projectRepository.save(project);  // Looks like 'save' is a default method of Spring service
     }
 
     public Project findByName(String name) {
-        // TODO: implement
-        return null;
+        // TODO: implement (Am I right?)
+        return projectRepository.findByName(name);
     }
 
     public List<Project> getAllProjects() {
-        // TODO: implement
-        return new ArrayList<Project>();
+        // TODO: implement (Am I right?)
+        return projectRepository.findAll();
     }
 }

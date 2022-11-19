@@ -45,8 +45,8 @@ public class ProjectApplication implements CommandLineRunner {
 		Project aseDeliveryProject = projectService.findByName(projectName);
 
 		log.info(String.format("Found Project %s with id %s",
-				project.getName(),
-				project.getId()));
+				aseDeliveryProject.getName(),
+				aseDeliveryProject.getId()));
 
 		List<Project> projectList = projectService.getAllProjects();
 		log.info("Number of Project in Database is " + projectList.size());
