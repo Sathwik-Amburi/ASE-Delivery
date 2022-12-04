@@ -21,7 +21,7 @@ show collections
 
 # How to test DB
 ```bash
-curl -X GET localhost:8080/Client/listAll
-curl -d "email=3_babushka@gmail.ru&pass=p@ssw0rd" -X POST localhost:8080/Client/create
-curl -X GET localhost:8080/Client/listAll
+curl -X GET localhost:8080/_client/listAll
+curl -d "email=babushka@gmail.ru&pass=p@ssw0rd" -X POST localhost:8080/Client/create
+curl -d "email=babushka@gmail.ru" -X POST localhost:8080/Client/find
 ```

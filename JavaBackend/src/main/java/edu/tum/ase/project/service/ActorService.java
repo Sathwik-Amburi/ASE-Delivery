@@ -19,8 +19,8 @@ public class ActorService {
         return actorRepository.save(newActor);
     }
 
-    public Optional<Actor> findByEmail(String email) {
-        return actorRepository.findByEmail(email);
+    public Optional<Actor> findByActorTypeAndEmail(String email, ActorType actorType) {
+        return actorRepository.findByActorTypeAndEmail(email, actorType);
     }
 
     public List<Actor> getAllActors() {
