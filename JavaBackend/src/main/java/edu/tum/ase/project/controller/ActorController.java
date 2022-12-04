@@ -35,13 +35,13 @@ public class ActorController {
 
     @PostMapping("/create")
     public Actor createActor(@PathVariable(value = "actorType") final String actorTypeStr,
-                             @RequestBody String email, @RequestBody String pass) {
+                             @RequestParam("email") String email, @RequestParam("pass") String pass) {
         return actorService.createActor(email, pass, str2actorType(actorTypeStr));
     }
 
     @PostMapping("/find")
     public Optional<Actor> getActorByEmail(@PathVariable(value = "actorType") final String actorTypeStr,
-                                           @RequestBody String email) {
+                                           @RequestParam("email") String email) {
         return actorService.findByActorTypeAndEmail(email, str2actorType(actorTypeStr));
     }
 }
