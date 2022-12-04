@@ -20,7 +20,7 @@ public class ActorService {
     }
 
     public Optional<Actor> findByActorTypeAndEmail(String email, ActorType actorType) {
-        return actorRepository.findByActorTypeAndEmail(email, actorType);
+        return actorRepository.findByActorTypeAndEmail(actorType, email);
     }
 
     public List<Actor> getAllActors() {
