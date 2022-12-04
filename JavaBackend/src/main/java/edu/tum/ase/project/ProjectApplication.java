@@ -1,10 +1,10 @@
 package edu.tum.ase.project;
 
 import com.mongodb.client.MongoClient;
-import edu.tum.ase.project.model.Client;
-import edu.tum.ase.project.model.Project;
+import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.repository.ProjectRepository;
-import edu.tum.ase.project.service.ClientService;
+import edu.tum.ase.project.service.ActorService;
+import edu.tum.ase.project.utils.ActorType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -25,7 +23,7 @@ public class ProjectApplication implements CommandLineRunner {
 	MongoClient mongoClient;
 
 	@Autowired
-	ClientService clientService;
+	ActorService clientService;
 
 	private static final Logger log = LoggerFactory.getLogger(ProjectApplication.class);
 
@@ -36,8 +34,8 @@ public class ProjectApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
-		List<Client> clientList = clientService.getAllClients();
-		for (Client client : clientList){
+		List<Actor> clientList = clientService.getAllActorsByType(ActorType.Client);
+		for (Actor client : clientList){
 			log.info(client.toString());
 		}
 		log.info("Number of Clients in Database is " + clientList.size());
