@@ -54,4 +54,13 @@ public class OrderService {
         order.get().setOrderStatus(orderStatus);
         return orderRepository.save(order.get());
     }
+
+    public void deleteOrder(String orderId) throws ObjectDoesNotExist {
+        Optional<Order> order = orderRepository.findById(orderId);
+        if (order.isEmpty()){
+            throw new ObjectDoesNotExist(String.format("An order with id '%s' does not exist", orderId));
+        }
+        orderRepository.delete(order.get());
+        return;
+    }
 }

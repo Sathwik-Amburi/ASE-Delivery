@@ -55,4 +55,14 @@ public class OrderController {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
+
+    @DeleteMapping("/delete")
+    public void deleteOrderById(@RequestParam("orderId") String OrderId){
+        try {
+            orderService.deleteOrder(OrderId);
+            return;
+        } catch (ObjectDoesNotExist e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
+    }
 }

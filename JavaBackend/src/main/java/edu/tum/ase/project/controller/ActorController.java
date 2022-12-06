@@ -3,6 +3,7 @@ package edu.tum.ase.project.controller;
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.service.ActorService;
 import edu.tum.ase.project.utils.ActorType;
+import edu.tum.ase.project.utils.ObjectDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,7 +31,7 @@ public class ActorController {
     }
 
     @GetMapping("/listAll")
-    public List<Actor> getAllActorsByType(@PathVariable(value = "actorType") final String actorTypeStr) {
+    public List<Actor> getAllActors(@PathVariable(value = "actorType") final String actorTypeStr) {
         if (Objects.equals(actorTypeStr, "AllActors")){
             return actorService.getAllActors();
         }
@@ -47,5 +48,15 @@ public class ActorController {
     public Optional<Actor> getActorByEmail(@PathVariable(value = "actorType") final String actorTypeStr,
                                            @RequestParam("email") String email) {
         return actorService.findByActorTypeAndEmail(email, str2actorType(actorTypeStr));
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteActorById(@RequestParam("actorId") String OrderId){
+        try {
+            actorService.deleteOrder(OrderId);
+            return;
+        } catch (ObjectDoesNotExist e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
     }
 }

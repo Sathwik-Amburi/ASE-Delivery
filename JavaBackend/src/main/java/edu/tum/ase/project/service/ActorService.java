@@ -1,8 +1,10 @@
 package edu.tum.ase.project.service;
 
 import edu.tum.ase.project.model.Actor;
+import edu.tum.ase.project.model.Order;
 import edu.tum.ase.project.repository.ActorRepository;
 import edu.tum.ase.project.utils.ActorType;
+import edu.tum.ase.project.utils.ObjectDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,14 @@ public class ActorService {
 
     public List<Actor> getAllActorsByType(ActorType actorType) {
         return actorRepository.findAll();
+    }
+
+    public void deleteOrder(String ActorId) throws ObjectDoesNotExist {
+        Optional<Actor> actor = actorRepository.findById(ActorId);
+        if (actor.isEmpty()){
+            throw new ObjectDoesNotExist(String.format("An actor with id '%s' does not exist", ActorId));
+        }
+        actorRepository.delete(actor.get());
+        return;
     }
 }
