@@ -27,15 +27,19 @@ public class Actor {
         this.actorType = actorType;
     }
 
-    public String getEmail(){
+    public String getId() {
+        return this.id;
+    }
+
+    public String getEmail() {
         return this.email;
     }
 
-    public ActorType getActorType(){
+    public ActorType getActorType() {
         return this.actorType;
     }
 
-    public boolean comparePass(String pass){
+    public boolean comparePass(String pass) {
         return pass.equals(this.pass);
     }
 }

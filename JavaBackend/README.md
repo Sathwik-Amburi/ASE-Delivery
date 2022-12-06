@@ -11,7 +11,7 @@ sudo service mongod status
 sudo systemctl status mongod
 ```
 
-Execute this in the mongoshell to inspect the tables
+Execute this in the mongoshell to inspect the tables. Only if you are interested in
 ```bash
 show dbs
 use test
@@ -21,7 +21,17 @@ show collections
 
 # How to test DB
 ```bash
-curl -X GET localhost:8080/_client/listAll
-curl -d "email=babushka@gmail.ru&pass=p@ssw0rd" -X POST localhost:8080/Client/create
-curl -d "email=babushka@gmail.ru" -X POST localhost:8080/Client/find
+curl -X GET localhost:8080/Client/listAll  # "Client" can be replaced with "Dispatcher","Deliverer" or "AllActors"
+curl -d "email=babushka1@gmail.ru&pass=p@ssw0rd" -X PUT localhost:8080/Client/create
+curl -d "email=babushka1@gmail.ru" -X POST localhost:8080/Client/find
+
+curl -d "email=disp@gmail.ru&pass=p@ssw0rd1" -X PUT localhost:8080/Dispatcher/create
+curl -d "email=del@gmail.ru&pass=p@ssw0rd2" -X PUT localhost:8080/Deliverer/create
+curl -X GET localhost:8080/AllActors/listAll
+
+curl -d "dispatcherId=638f0fceb39edb53d3f173d5&delivererId=638f0fceb39edb53d3f173d6&clientId=638f0fc1b39edb53d3f173d4&street=ErsteStraße" \
+  -X PUT localhost:8080/Order/create  # replace with your Ids!!!
+curl -X GET localhost:8080/Order/listAll
+
+curl -d "orderId=638f107f6da351709abcaf70&newOrderStatus=Delivered" -X PUT localhost:8080/Order/updateOrderStatus
 ```

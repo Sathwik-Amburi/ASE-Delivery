@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("/{actorType}")
+@RequestMapping("/{actorType}")  // possible "Client", "Dispatcher", "Deliverer" or "AllActors"
 public class ActorController {
     @Autowired
     ActorService actorService;
@@ -23,17 +24,20 @@ public class ActorController {
         try {
             actorType = ActorType.valueOf(actorTypeStr);
         } catch (IllegalArgumentException ex) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+            throw new ResponseStatusException(NOT_FOUND, "Wrong actorType");
         }
         return actorType;
     }
 
     @GetMapping("/listAll")
     public List<Actor> getAllActorsByType(@PathVariable(value = "actorType") final String actorTypeStr) {
+        if (Objects.equals(actorTypeStr, "AllActors")){
+            return actorService.getAllActors();
+        }
         return actorService.getAllActorsByType(str2actorType(actorTypeStr));
     }
 
-    @PostMapping("/create")
+    @PutMapping("/create")
     public Actor createActor(@PathVariable(value = "actorType") final String actorTypeStr,
                              @RequestParam("email") String email, @RequestParam("pass") String pass) {
         return actorService.createActor(email, pass, str2actorType(actorTypeStr));
