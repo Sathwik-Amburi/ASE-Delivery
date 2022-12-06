@@ -33,7 +33,7 @@ public class ActorService {
         return actorRepository.findAll();
     }
 
-    public void deleteOrder(String ActorId) throws ObjectDoesNotExist {
+    public void deleteActor(String ActorId) throws ObjectDoesNotExist {
         Optional<Actor> actor = actorRepository.findById(ActorId);
         if (actor.isEmpty()){
             throw new ObjectDoesNotExist(String.format("An actor with id '%s' does not exist", ActorId));

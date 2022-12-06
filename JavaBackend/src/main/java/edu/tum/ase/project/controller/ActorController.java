@@ -51,9 +51,9 @@ public class ActorController {
     }
 
     @DeleteMapping("/delete")
-    public void deleteActorById(@RequestParam("actorId") String OrderId){
+    public void deleteActorById(@RequestParam("ActorId") String ActorId){
         try {
-            actorService.deleteOrder(OrderId);
+            actorService.deleteActor(ActorId);
             return;
         } catch (ObjectDoesNotExist e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
