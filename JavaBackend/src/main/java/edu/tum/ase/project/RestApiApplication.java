@@ -2,7 +2,6 @@ package edu.tum.ase.project;
 
 import com.mongodb.client.MongoClient;
 import edu.tum.ase.project.model.Actor;
-import edu.tum.ase.project.repository.ProjectRepository;
 import edu.tum.ase.project.service.ActorService;
 import edu.tum.ase.project.utils.ActorType;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +15,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import java.util.List;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = { ProjectRepository.class })
-public class ProjectApplication implements CommandLineRunner {
+@EnableMongoRepositories(basePackageClasses = { RestApiApplication.class })
+public class RestApiApplication implements CommandLineRunner {
 
 	@Autowired
 	MongoClient mongoClient;
@@ -25,10 +24,10 @@ public class ProjectApplication implements CommandLineRunner {
 	@Autowired
 	ActorService clientService;
 
-	private static final Logger log = LoggerFactory.getLogger(ProjectApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(RestApiApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectApplication.class, args);
+		SpringApplication.run(RestApiApplication.class, args);
 	}
 
 	@Override
@@ -39,23 +38,5 @@ public class ProjectApplication implements CommandLineRunner {
 			log.info(client.toString());
 		}
 		log.info("Number of Clients in Database is " + clientList.size());
-
-
-//		String projectName = "ASE Delivery";
-//
-//		Project project = projectService.createProject(new Project(projectName));
-//
-//		log.info(String.format("Project %s is created with id %s",
-//				project.getName(),
-//				project.getId()));
-//
-//		Project aseDeliveryProject = projectService.findByName(projectName);
-//
-//		log.info(String.format("Found Project %s with id %s",
-//				aseDeliveryProject.getName(),
-//				aseDeliveryProject.getId()));
-//
-//		List<Project> projectList = projectService.getAllProjects();
-//		log.info("Number of Project in Database is " + projectList.size());
 	}
 }
