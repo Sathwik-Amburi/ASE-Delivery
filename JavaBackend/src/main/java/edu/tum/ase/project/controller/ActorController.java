@@ -39,7 +39,7 @@ public class ActorController {
         return actorService.getAllActorsByType(str2actorType(actorTypeStr));
     }
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     public Actor createActor(@PathVariable(value = "actorType") final String actorTypeStr,
                              @RequestParam("email") String email, @RequestParam("pass") String pass) {
         return actorService.createActor(email, pass, str2actorType(actorTypeStr));

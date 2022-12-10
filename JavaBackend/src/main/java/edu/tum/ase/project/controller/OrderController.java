@@ -46,7 +46,7 @@ public class OrderController {
         return order.get();
     }
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     public Order createOrder(@RequestParam("dispatcherId") String dispatcherId,
                              @RequestParam("delivererId") String delivererId,
                              @RequestParam("clientId") String clientId,
