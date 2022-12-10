@@ -33,8 +33,14 @@ class ServerCommunicator:
 
         url = os.path.join(self.server_address, 'Order/getUndelivOrderByDeliverer')
         response = self.session.post(url, data=self.post_params_id)
+        print(url, self.post_params_id)  # todo remove
+        print(response.status_code, response.text)  # todo remove
+        if response.status_code == 406:
+            return False, None
+
         assert response.status_code == 200, \
-            f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}'
+            f'INFO: The response of the query "{url}", data: "{self.post_params_id}" is incorrect. ' \
+            f'{response.status_code}: {response.text}'
         response_json = response.json()
         order_id = response_json['id']
         deliverer_id = response_json['deliverer']['id']
@@ -51,12 +57,18 @@ class ServerCommunicator:
 
         return result, order_id
 
-    def set_order_delivered(self, order_id: str) -> None:
+    def set_order_delivered(self, order_id: str) -> bool:
         url = os.path.join(self.server_address, 'Order/updateOrderStatus')
         params = {'orderId': order_id, 'newOrderStatus': 'Delivered'}
         response = self.session.put(url, data=params)
-        assert response.status_code == 200, \
-            f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}'
+        print(url, params)  # todo remove
+        print(response.status_code, response.text)  # todo remove
+        if response.status_code != 200:
+            print(
+                f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}')
+            return False
+        print(f'The statis "Delivered" is set to {order_id} order')
+        return True
 
 
 if __name__ == '__main__':

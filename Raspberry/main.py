@@ -2,13 +2,14 @@ import const
 from datetime import timedelta, datetime
 import time
 
-from utils import HardwareController, ServerCommunicator, ActorType, BoxState, LEDState
+from serverCommunicator import ServerCommunicator, ActorType
+from utils import HardwareController, BoxState, LEDState
 
 
 def check_RFID_name(controller: HardwareController,
                     communicator: ServerCommunicator,
                     p_type: ActorType) -> (bool, str):
-    name = controller.read_RFID_name()
+    name = controller.read_RFID_name().strip()
     print(f'name=|{name}|')  # TODO remove
     result, order_id = communicator.check_person_name(actor_id=name, a_type=p_type)
     print(f'check_person_name=|{result}|')  # TODO remove
