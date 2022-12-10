@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
@@ -24,7 +26,7 @@ public class OrderController {
         try {
             orderStatus = OrderStatus.valueOf(orderStatusStr);
         } catch (IllegalArgumentException ex) {
-            throw new ResponseStatusException(NOT_FOUND, "Wrong orderStatus");
+            throw new ResponseStatusException(NOT_ACCEPTABLE, "Wrong orderStatus");
         }
         return orderStatus;
     }
@@ -34,7 +36,17 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @PutMapping("/create")
+    @PostMapping("/getUndelivOrderByDeliverer")
+    public Order getUndelivOrderByDeliverer(@RequestParam("delivererId") String delivererId){
+        Optional<Order> order = orderService.getUndelivOrderByDelivererId(delivererId);
+        if (order.isEmpty()){
+            throw new ResponseStatusException(NOT_ACCEPTABLE,
+                    String.format("Undelivered order of the deliverer '%s' was not found", delivererId));
+        }
+        return order.get();
+    }
+
+    @PostMapping("/create")
     public Order createOrder(@RequestParam("dispatcherId") String dispatcherId,
                              @RequestParam("delivererId") String delivererId,
                              @RequestParam("clientId") String clientId,
@@ -42,7 +54,7 @@ public class OrderController {
         try {
             return orderService.createOrder(dispatcherId, delivererId, clientId, street);
         } catch (ObjectDoesNotExist e) {
-            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
 
@@ -52,7 +64,7 @@ public class OrderController {
         try {
             return orderService.updateOrderStatus(OrderId, str2orderStatus(orderStatusStr));
         } catch (ObjectDoesNotExist e) {
-            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
 
@@ -62,7 +74,7 @@ public class OrderController {
             orderService.deleteOrder(OrderId);
             return;
         } catch (ObjectDoesNotExist e) {
-            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
 }

@@ -1,4 +1,3 @@
-import requests
 from enum import Enum
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
@@ -20,44 +19,6 @@ class LightState:
 class BoxState(Enum):
     CLOSED = 0
     OPENED = 1
-
-
-class PersonType(Enum):
-    DELIVERER = 0
-    CUSTOMER = 1
-    ANY = 2
-
-
-class ServerCommunicator:
-    def __init__(self, server_address: str, rasp_name: str, rasp_pass: str):
-        self.server_address = server_address
-        # self.session = requests.Session()
-        # self.session.auth = (rasp_name, rasp_pass)
-
-        # url = self.server_address  # TODO may be another address
-        # response = self.session.get(url, verify=False)
-        # assert response.status_code == 200, (
-        #     f'Server addr, rasp_name or rasp_pass is incorrect. The GET request to "{url}" with '
-        #     f'user "{rasp_name}" and pass "{rasp_pass}" returned {response.status_code} status code'
-        # )
-
-    def check_person_name(self, name: str, p_type: PersonType) -> bool:
-        user_set = {"lol", "kek", "Danya                                           "}
-        return name in user_set
-        # if p_type == PersonType.DELIVERER:
-        #     url = os.path.join(self.server_address, 'other/magic/path/', name)  # TODO
-        # else:
-        #     url = os.path.join(self.server_address, 'third/magic/path/', name)  # TODO
-        #
-        # response = self.session.get(url)
-        # assert response.status_code == 200, \
-        #     f'INFO: The response of the query "{url}" is incorrect, status_code is {response.status_code}'
-        # result = response.json()['result']
-        # return result
-
-    def update_box_status(self, message: str) -> None:
-        """send to the backEnd 'The goods were taken' and so on"""
-        pass
 
 
 class HardwareController:
