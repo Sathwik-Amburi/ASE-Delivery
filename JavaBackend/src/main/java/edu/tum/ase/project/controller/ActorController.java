@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
@@ -25,7 +26,7 @@ public class ActorController {
         try {
             actorType = ActorType.valueOf(actorTypeStr);
         } catch (IllegalArgumentException ex) {
-            throw new ResponseStatusException(NOT_FOUND, "Wrong actorType");
+            throw new ResponseStatusException(NOT_ACCEPTABLE, "Wrong actorType");
         }
         return actorType;
     }
@@ -56,7 +57,7 @@ public class ActorController {
             actorService.deleteActor(ActorId);
             return;
         } catch (ObjectDoesNotExist e) {
-            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
 }

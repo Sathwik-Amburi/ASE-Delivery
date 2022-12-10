@@ -32,8 +32,11 @@ curl -X GET localhost:8080/AllActors/listAll
 curl -d "dispatcherId=638f0fceb39edb53d3f173d5&delivererId=638f0fceb39edb53d3f173d6&clientId=638f0fc1b39edb53d3f173d4&street=ErsteStraße" \
   -X PUT localhost:8080/Order/create  # replace with your Ids!!!
 curl -X GET localhost:8080/Order/listAll
+curl -d "delivererId=638f0fceb39edb53d3f173d6" -X POST localhost:8080/Order/getUndelivOrderByDeliverer
 
 curl -d "orderId=638f107f6da351709abcaf70&newOrderStatus=Delivered" -X PUT localhost:8080/Order/updateOrderStatus
 
 curl -d "actorId=638d268e2b1ca04e2b3f573a" -X DELETE localhost:8080/Client/delete
 ```
+curl -d "dispatcherId=69&delivererId=638f0fceb39edb53d3f173d6&clientId=638f0fc1b39edb53d3f173d4&street=ErsteStraße" \
+-X PUT localhost:8080/Order/create 
