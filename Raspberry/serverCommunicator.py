@@ -16,7 +16,7 @@ class ServerCommunicator:
     def __init__(self, server_address: str, rasp_name: str, rasp_pass: str):
         self.server_address = server_address
         self.session = requests.Session()
-        self.post_params_id = {'delivererId': rasp_name}
+        self.data_params_id = {'delivererId': rasp_name}
 
         # for authentication
         # self.session.auth = (rasp_name, rasp_pass)
@@ -32,14 +32,14 @@ class ServerCommunicator:
             return actor_id in user_set
 
         url = os.path.join(self.server_address, 'Order/getUndelivOrderByDeliverer')
-        response = self.session.post(url, data=self.post_params_id)
-        print(url, self.post_params_id)  # todo remove
-        print(response.status_code, response.text)  # todo remove
+        response = self.session.post(url, data=self.data_params_id)
+        print(f'INFO for check_person_name\nURL: "{url}", DATA: {self.data_params_id}\n'
+              f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code == 406:
             return False, None
 
         assert response.status_code == 200, \
-            f'INFO: The response of the query "{url}", data: "{self.post_params_id}" is incorrect. ' \
+            f'INFO: The response of the query "{url}", data: "{self.data_params_id}" is incorrect. ' \
             f'{response.status_code}: {response.text}'
         response_json = response.json()
         order_id = response_json['id']
@@ -61,8 +61,8 @@ class ServerCommunicator:
         url = os.path.join(self.server_address, 'Order/updateOrderStatus')
         params = {'orderId': order_id, 'newOrderStatus': 'Delivered'}
         response = self.session.put(url, data=params)
-        print(url, params)  # todo remove
-        print(response.status_code, response.text)  # todo remove
+        print(f'INFO for set_order_delivered\nURL: "{url}", DATA: {params}\n'
+              f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code != 200:
             print(
                 f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}')
