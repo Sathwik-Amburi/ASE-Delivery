@@ -22,22 +22,25 @@ show collections
 # How to test DB
 ```bash
 curl -X GET localhost:8080/Client/listAll  # "Client" can be replaced with "Dispatcher","Deliverer" or "AllActors"
-curl -d "email=babushka1@gmail.ru&pass=p@ssw0rd" -X POST localhost:8080/Client/create
-curl -d "email=babushka1@gmail.ru" -X POST localhost:8080/Client/find
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"email": "babushka@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Client/create
+curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka1@gmail.ru"}' localhost:8080/Client/find
 
-curl -d "email=disp@gmail.ru&pass=p@ssw0rd1" -X POST localhost:8080/Dispatcher/create
-curl -d "email=del@gmail.ru&pass=p@ssw0rd2" -X POST localhost:8080/Deliverer/create
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"email": "disp@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Dispatcher/create
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"email": "del@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Deliverer/create
+  
 curl -X GET localhost:8080/AllActors/listAll
 
-curl -d "dispatcherId=638f0fceb39edb53d3f173d5&delivererId=638f0fceb39edb53d3f173d6&clientId=638f0fc1b39edb53d3f173d4&street=ErsteStraße" \
-  -X POST localhost:8080/Order/create  # replace with your Ids!!!
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"dispatcherId": "63bd33a9e03f596350f8afb2", "delivererId": "63bd33a9e03f596350f8afb3", "clientId": "63bd2d47dea40908ea916896", "street": "ErsteStraße"}' \
+  localhost:8080/Order/create  # replace with your Ids!!!
 curl -X GET localhost:8080/Order/listAll
-curl -d "delivererId=638f0fceb39edb53d3f173d6" -X POST localhost:8080/Order/getUndelivOrderByDeliverer
-curl -d "delivererId=638f0fc1b39edb53d3f173d4" -X POST localhost:8080/Order/getUndelivOrderByDeliverer  # should not work
 
-curl -d "orderId=638f107f6da351709abcaf70&newOrderStatus=Delivered" -X PUT localhost:8080/Order/updateOrderStatus
+curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/Order/getUndelivOrderByDeliverer
 
-curl -d "actorId=638d268e2b1ca04e2b3f573a" -X DELETE localhost:8080/Client/delete
+curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "638f107f6da351709abcaf70", "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus
+
+curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1ca04e2b3f573a"}' localhost:8080/Client/delete
 ```
-curl -d "dispatcherId=69&delivererId=638f0fceb39edb53d3f173d6&clientId=638f0fc1b39edb53d3f173d4&street=ErsteStraße" \
--X PUT localhost:8080/Order/create 
