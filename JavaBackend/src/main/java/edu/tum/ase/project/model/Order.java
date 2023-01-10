@@ -47,8 +47,8 @@ public class Order {
         return client;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public String getStreet() {
+        return street;
     }
 
     public OrderStatus getOrderStatus() {

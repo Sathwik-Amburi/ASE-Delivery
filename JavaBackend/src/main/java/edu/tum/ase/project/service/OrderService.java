@@ -23,27 +23,37 @@ public class OrderService {
 
     public Order createOrder(String dispatcherId, String delivererId, String clientId, String street)
             throws ObjectDoesNotExist {
-        Actor dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.Dispatcher);
-        if (dispatcher == null) {
+        Optional<Order> order = this.getUndelivOrderByDelivererId(delivererId);
+        if (order.isPresent()) {
+            throw new ObjectDoesNotExist(String.format("A deliverer '%s' already has an undelivered order '%s'",
+                    delivererId, order.get().getId()));
+        }
+
+        Optional<Actor> dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.Dispatcher);
+        if (dispatcher.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A dispatcher with id '%s' does not exist", dispatcherId));
         }
 
-        Actor deliverer = actorRepository.findByIdAndActorType(delivererId, ActorType.Deliverer);
-        if (deliverer == null) {
+        Optional<Actor> deliverer = actorRepository.findByIdAndActorType(delivererId, ActorType.Deliverer);
+        if (deliverer.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A deliverer with id '%s' does not exist", delivererId));
         }
 
-        Actor client = actorRepository.findByIdAndActorType(clientId, ActorType.Client);
-        if (client == null) {
+        Optional<Actor> client = actorRepository.findByIdAndActorType(clientId, ActorType.Client);
+        if (client.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A client with id '%s' does not exist", delivererId));
         }
 
-        Order newOrder = new Order(dispatcher, deliverer, client, street);
+        Order newOrder = new Order(dispatcher.get(), deliverer.get(), client.get(), street);
         return orderRepository.save(newOrder);
     }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public Optional<Order> getUndelivOrderByDelivererId(String delivererId){
+        return orderRepository.findByDelivererIdAndOrderStatus(delivererId, OrderStatus.OnItsWay);
     }
 
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws ObjectDoesNotExist {

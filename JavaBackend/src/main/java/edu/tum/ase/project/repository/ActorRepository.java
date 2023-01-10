@@ -12,5 +12,5 @@ public interface ActorRepository extends MongoRepository<Actor, String> {
 
     List<Actor> findAllByActorType(ActorType actorType);
 
-    Actor findByIdAndActorType(String id, ActorType actorType);
+    Optional<Actor> findByIdAndActorType(String id, ActorType actorType);
 }

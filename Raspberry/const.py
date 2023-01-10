@@ -1,6 +1,5 @@
-# TODO
-SERVER_ADDRESS = 'https://TODO_magic/'
-RASP_NAME = 'bald_cat'
+SERVER_ADDRESS = 'http://172.20.10.10:8080/'
+RASP_NAME = '638f0fceb39edb53d3f173d6'  # deliverer Id
 RASP_PASS = '123'
 
 # HW = HardWare
