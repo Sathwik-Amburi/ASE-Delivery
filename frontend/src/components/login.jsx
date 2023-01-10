@@ -26,7 +26,13 @@ export default function SignInSide() {
       password: data.get("password"),
       role: userRole,
     });
-    navigate("/dispatcher");
+    if (userRole === "dispatcher") {
+      navigate("/dispatcher");
+    } else if (userRole === "customer") {
+      navigate("/customer");
+    } else if (userRole === "deliverer") {
+      navigate("/deliverer");
+    }
   };
 
   return (
