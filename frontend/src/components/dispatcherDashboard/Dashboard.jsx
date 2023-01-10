@@ -3,7 +3,10 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Typography } from "@mui/material";
-import BoxTable from "./boxTable";
+import Orders from "./Orders";
+import Customers from "./Customers";
+import Dispatchers from "./Dispatchers";
+import Deliverers from "./Deliverers";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,7 +21,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
@@ -36,21 +39,21 @@ export default function CenteredTabs() {
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Dispatchers" />
-        <Tab label="Boxes" />
+        <Tab label="Orders" />
         <Tab label="Customers" />
         <Tab label="Deliverers" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Dispatchers
+        <Dispatchers />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <BoxTable />
+        <Orders />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Customers
+        <Customers />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Deliverers
+        <Deliverers />
       </TabPanel>
     </Box>
   );

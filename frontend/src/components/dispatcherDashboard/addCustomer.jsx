@@ -9,7 +9,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import Box from "@mui/material/Box";
 import { useCallback } from "react";
 
-function AddBox({ onSubmit }) {
+function AddCustomer({ onSubmit }) {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,7 +42,7 @@ function AddBox({ onSubmit }) {
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add box
+        Add Customer
       </Button>
       <Dialog
         open={open}
@@ -118,4 +118,4 @@ function AddBox({ onSubmit }) {
   );
 }
 
-export default AddBox;
+export default AddCustomer;
