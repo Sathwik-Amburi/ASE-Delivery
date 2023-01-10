@@ -172,7 +172,7 @@ public class OrderController {
     @DeleteMapping("/delete")
     public void deleteOrderById(@RequestBody ObjectNode json){
         /*
-        Delete an order by id
+        Deletes an order by id
 
         Usage
         curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/Order/delete

@@ -127,7 +127,7 @@ public class ActorController {
     @DeleteMapping("/delete")
     public void deleteActorById(@RequestBody ObjectNode json, @PathVariable String actorType){
         /*
-        Delete an actor by id
+        Deletes an actor by id
 
         Usage
         curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Client/delete  # delete a Client
