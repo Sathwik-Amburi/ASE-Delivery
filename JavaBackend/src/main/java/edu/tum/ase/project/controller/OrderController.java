@@ -40,13 +40,17 @@ public class OrderController {
         Usage:
         curl -X GET localhost:8080/Order/listAll
 
-        Return value is the list of items (id, email, actorType)
+        Return value is the list of items
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
         >> curl -X GET localhost:8080/Order/listAll
         << status code 200
-           [{"id":"638d2a011064dc1a387acc8e","email":"babushka@gmail.ru","actorType":"Client"},
-            {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"Dispatcher"}]
+           [{"id":"63bd6531f5305824ce4b9854",
+             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
+             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
+             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+             "street":"ErsteStraße","orderStatus":"OnItsWay"}]
         */
         return orderService.getAllOrders();
     }
@@ -61,7 +65,7 @@ public class OrderController {
         DELIVERER_ID is a user string representing Id of an object from the actor database
 
         Returns a created order item, i.e. an object with fields
-            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/Order/getUndelivOrderByDeliverer
@@ -97,7 +101,7 @@ public class OrderController {
         DISPATCHER_ID, DELIVERER_ID and CLIENT_ID are user strings representing Ids of objects from the actor database
 
         Returns a created order item, i.e. an object with fields
-            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" \
@@ -144,7 +148,7 @@ public class OrderController {
         ORDER_ID is a user string representing Id of an object from the order database
 
         Returns a created order item, i.e. an object with fields
-            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
         >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus

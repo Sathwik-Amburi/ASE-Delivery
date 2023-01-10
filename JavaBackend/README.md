@@ -46,7 +46,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 ```
 # The whole API documentation
 
-### Returns all the actors or all the actors of the specified type
+### Return all the actors or all the actors of the specified type
 
         Usage:
         curl -X GET localhost:8080/AllActors/listAll  # returns all the actors
@@ -63,7 +63,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
             {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"Dispatcher"}]
 
 
-### Creates an actor item
+### Create an actor item
 
         Usage:
         curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/Client/create  # create a new Client
@@ -88,7 +88,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 
 
 
-### Returns an actor by email
+### Return an actor by email
 
     Usage
     curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/Client/find  # find a Client
@@ -105,7 +105,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
      
 
 
-### Deletes an actor by id
+### Delete an actor by id
 
     Usage
     curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Client/delete  # delete a Client
@@ -125,29 +125,32 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
          
 
 
-### Returns all the orders
+### Return all the orders
 
     Usage:
     curl -X GET localhost:8080/Order/listAll
     
-    Return value is the list of items (id, email, actorType)
+    Return value is the list of items (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
     
     Example:
     >> curl -X GET localhost:8080/Order/listAll
     << status code 200
-       [{"id":"638d2a011064dc1a387acc8e","email":"babushka@gmail.ru","actorType":"Client"},
-        {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"Dispatcher"}]
+       [{"id":"63bd6531f5305824ce4b9854",
+         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
+         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
+         "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+         "street":"ErsteStraße","orderStatus":"OnItsWay"}]
       
       
       
-### Returns undelivered order assigned to a specified deliverer
+### Return undelivered order assigned to a specified deliverer
 
     Usage:
     curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/Order/getUndelivOrderByDeliverer
     DELIVERER_ID is a user string representing Id of an object from the actor database
     
     Returns a created order item, i.e. an object with fields
-        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
     
     Example:
     >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/Order/getUndelivOrderByDeliverer
@@ -155,11 +158,11 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
         {"id":"63bd3723e03f596350f8afb6",
         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"}, "street":"ErsteStraße", "orderStatus":"OnItsWay"}
     
 
 
-### Creates an order
+### Create an order
 
     Usage:
     curl -X POST -H "Content-Type: application/json" \
@@ -168,7 +171,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     DISPATCHER_ID, DELIVERER_ID and CLIENT_ID are user strings representing Ids of objects from the actor database
     
     Returns a created order item, i.e. an object with fields
-        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
     
     Example:
     >> curl -X POST -H "Content-Type: application/json" \
@@ -178,7 +181,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
         {"id":"63bd3723e03f596350f8afb6",
         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"street":"ErsteStraße","orderStatus":"OnItsWay"}
     >> curl -X POST -H "Content-Type: application/json" \
         -d '{"dispatcherId": "1", "delivererId": "2", "clientId": "3", "street": "ErsteStraße"}' \
         localhost:8080/Order/create  # not existing ids
@@ -187,7 +190,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     
     
     
-### Updates na order status
+### Update na order status
 
     Usage:
     curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus
@@ -195,7 +198,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     ORDER_ID is a user string representing Id of an object from the order database
     
     Returns a created order item, i.e. an object with fields
-        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), orderStatus)
+        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
     
     Example:
     >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus
@@ -203,11 +206,11 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
         {"id":"63bd3723e03f596350f8afb6",
         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"street":"ErsteStraße","orderStatus":"OnItsWay"}
     
     
     
-### Deletes an order by id
+### Delete an order by id
 
     Usage
     curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/Order/delete
