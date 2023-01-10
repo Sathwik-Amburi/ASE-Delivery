@@ -32,19 +32,19 @@ public class OrderController {
         return orderStatus;
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("")
     public List<Order> getAllOrders() {
         /*
         Returns all the orders
 
         Usage:
-        curl -X GET localhost:8080/Order/listAll
+        curl -X GET localhost:8080/Order
 
         Return value is the list of items
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X GET localhost:8080/Order/listAll
+        >> curl -X GET localhost:8080/Order
         << status code 200
            [{"id":"63bd6531f5305824ce4b9854",
              "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
@@ -89,7 +89,7 @@ public class OrderController {
         return order.get();
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public Order createOrder(@RequestBody ObjectNode json) {
         /*
         Creates an order
@@ -97,7 +97,7 @@ public class OrderController {
         Usage:
         curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": <DISPATCHER_ID>, "delivererId": <DELIVERER_ID>, "clientId": <CLIENT_ID>, "street": "ErsteStraße"}' \
-            localhost:8080/Order/create
+            localhost:8080/Order
         DISPATCHER_ID, DELIVERER_ID and CLIENT_ID are user strings representing Ids of objects from the actor database
 
         Returns a created order item, i.e. an object with fields
@@ -106,7 +106,7 @@ public class OrderController {
         Example:
         >> curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": "63bd33a9e03f596350f8afb2", "delivererId": "63bd33a9e03f596350f8afb3", "clientId": "63bd2d47dea40908ea916896", "street": "ErsteStraße"}' \
-            localhost:8080/Order/create
+            localhost:8080/Order
         << status code 200
             {"id":"63bd3723e03f596350f8afb6",
             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
@@ -114,9 +114,9 @@ public class OrderController {
             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
         >> curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": "1", "delivererId": "2", "clientId": "3", "street": "ErsteStraße"}' \
-            localhost:8080/Order/create  # not existing ids
+            localhost:8080/Order  # not existing ids
         << status code 406
-           {"timestamp":"2023-01-10T10:02:29.693+00:00","status":406,"error":"Not Acceptable","path":"/Order/create"}
+           {"timestamp":"2023-01-10T10:02:29.693+00:00","status":406,"error":"Not Acceptable","path":"/Order"}
         */
         String dispatcherId;
         String delivererId;
@@ -137,21 +137,21 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/updateOrderStatus")
+    @PutMapping("")
     public Order updateOrderStatus(@RequestBody ObjectNode json) {
         /*
-        Updates na order status
+        Updates an order status
 
         Usage:
-        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus
-        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "OnItsWay"}' localhost:8080/Order/updateOrderStatus
+        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "Delivered"}' localhost:8080/Order
+        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "OnItsWay"}' localhost:8080/Order
         ORDER_ID is a user string representing Id of an object from the order database
 
         Returns a created order item, i.e. an object with fields
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/Order/updateOrderStatus
+        >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/Order
         << status code 200
             {"id":"63bd3723e03f596350f8afb6",
             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
@@ -173,24 +173,24 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public void deleteOrderById(@RequestBody ObjectNode json){
         /*
         Deletes an order by id
 
         Usage
-        curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/Order/delete
+        curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/Order
         ORDER_ID is a user string representing Id of an object from the order database
 
         Returns only status code (or an error)
 
         Example:
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order/delete
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order
         << status code 200
 
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order/delete  # try to delete a key missing from the table
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order  # try to delete a key missing from the table
         << status code 406
-           {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/Order/delete"}
+           {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/Order"}
         */
         String orderId;
         try {
