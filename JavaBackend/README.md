@@ -146,9 +146,9 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 ### Return all the orders of a specified actor
 
     Usage:
-    curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <ACTOR_ID>}' localhost:8080/Order/Client
-    curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <ACTOR_ID>}' localhost:8080/Order/Deliverer
-    curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <ACTOR_ID>}' localhost:8080/Order/Dispatcher
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Client
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Deliverer
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Dispatcher
     ACTOR_ID is a user string representing Id of an object from the actor database
 
     Return value is the list of items
