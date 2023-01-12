@@ -52,13 +52,21 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> getUndelivOrderByDelivererId(String delivererId){
+    public List<Order> getAllOrdersByActor(ActorType actorType, String actorId) {
+        return switch (actorType) {
+            case Client -> orderRepository.findAllByClientId(actorId);
+            case Deliverer -> orderRepository.findAllByDelivererId(actorId);
+            case Dispatcher -> orderRepository.findAllByDispatcherId(actorId);
+        };
+    }
+
+    public Optional<Order> getUndelivOrderByDelivererId(String delivererId) {
         return orderRepository.findByDelivererIdAndOrderStatus(delivererId, OrderStatus.OnItsWay);
     }
 
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws ObjectDoesNotExist {
         Optional<Order> order = orderRepository.findById(orderId);
-        if (order.isEmpty()){
+        if (order.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("An order with id '%s' does not exist", orderId));
         }
         order.get().setOrderStatus(orderStatus);
@@ -67,7 +75,7 @@ public class OrderService {
 
     public void deleteOrder(String orderId) throws ObjectDoesNotExist {
         Optional<Order> order = orderRepository.findById(orderId);
-        if (order.isEmpty()){
+        if (order.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("An order with id '%s' does not exist", orderId));
         }
         orderRepository.delete(order.get());

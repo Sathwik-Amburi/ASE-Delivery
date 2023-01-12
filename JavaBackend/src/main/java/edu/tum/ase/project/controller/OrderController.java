@@ -3,6 +3,7 @@ package edu.tum.ase.project.controller;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.tum.ase.project.model.Order;
 import edu.tum.ase.project.service.OrderService;
+import edu.tum.ase.project.utils.ActorType;
 import edu.tum.ase.project.utils.ObjectDoesNotExist;
 import edu.tum.ase.project.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class OrderController {
         return orderStatus;
     }
 
+    private ActorType str2actorType(String actorTypeStr) {
+        ActorType actorType;
+        try {
+            actorType = ActorType.valueOf(actorTypeStr);
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(NOT_ACCEPTABLE, "Wrong actorType");
+        }
+        return actorType;
+    }
+
     @GetMapping("")
     public List<Order> getAllOrders() {
         /*
@@ -53,6 +64,39 @@ public class OrderController {
              "street":"ErsteStraße","orderStatus":"OnItsWay"}]
         */
         return orderService.getAllOrders();
+    }
+
+    @PostMapping("/{actorType}")
+    public List<Order> getAllOrdersByActor(@PathVariable(value = "actorType") final String actorTypeStr,
+                                    @RequestBody ObjectNode json) {
+        /*
+        Returns all the orders of a specified actor
+
+        Usage:
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Client
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Deliverer
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Dispatcher
+        ACTOR_ID is a user string representing Id of an object from the actor database
+
+        Return value is the list of items
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
+
+        Example:
+        >> curl -X POST -H "Content-Type: application/json" -d '{"actorId": "63bd2d47dea40908ea916896"}' localhost:8080/Order/Client
+        << status code 200
+           [{"id":"63bd6531f5305824ce4b9854",
+             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
+             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
+             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+             "street":"ErsteStraße","orderStatus":"Delivered"}]
+        */
+        String actorId;
+        try {
+            actorId = json.get("actorId").asText();
+        } catch (NullPointerException ex) {
+            throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
+        }
+        return orderService.getAllOrdersByActor(str2actorType(actorTypeStr), actorId);
     }
 
     @PostMapping("/getUndelivOrderByDeliverer")

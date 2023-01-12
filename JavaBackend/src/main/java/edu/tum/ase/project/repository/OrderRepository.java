@@ -13,12 +13,10 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     Optional<Order> findById(String orderID);
 
-    List<Order> findAllByDispatcher(Actor dispatcher);
-    List<Order> findAllByDeliverer(Actor deliverer);
+    List<Order> findAllByDispatcherId(String dispatcherId);
+    List<Order> findAllByDelivererId(String delivererId);
+    List<Order> findAllByClientId(String clientId);
 
     Optional<Order> findByDelivererIdAndOrderStatus(String delivererId, OrderStatus orderStatus);
-    Optional<Order> findByDelivererId(String delivererId);
     Optional<Order> findByOrderStatus(OrderStatus orderStatus);
-
-    List<Order> findAllByClient(Actor client);
 }

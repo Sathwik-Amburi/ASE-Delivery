@@ -140,8 +140,28 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
          "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
          "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
          "street":"ErsteStraße","orderStatus":"OnItsWay"}]
-      
-      
+
+
+
+### Return all the orders of a specified actor
+
+    Usage:
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Client
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Deliverer
+    curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Dispatcher
+    ACTOR_ID is a user string representing Id of an object from the actor database
+
+    Return value is the list of items
+        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
+
+    Example:
+    >> curl -X POST -H "Content-Type: application/json" -d '{"actorId": "63bd2d47dea40908ea916896"}' localhost:8080/Order/Client
+    << status code 200
+       [{"id":"63bd6531f5305824ce4b9854",
+         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
+         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
+         "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+         "street":"ErsteStraße","orderStatus":"Delivered"}]
       
 ### Return undelivered order assigned to a specified deliverer
 
