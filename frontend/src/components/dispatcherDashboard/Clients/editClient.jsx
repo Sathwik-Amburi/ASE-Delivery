@@ -7,9 +7,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch } from "react-redux";
 import { Box } from "@mui/material";
-import { addOrder } from "../../features/order/orderSlice";
+import { editClient } from "../../../features/client/clientSlice";
 
-export default function FormDialog() {
+export default function FormDialog({ id }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -25,35 +25,18 @@ export default function FormDialog() {
     // Get the form data
     const data = new FormData(event.currentTarget);
     const formData = {
-      id: data.get("ID"),
-      dispatcher: {
-        id: "63bd33a9e03f596350f8afb2",
-        email: data.get("dispatcherEmail"),
-        actorType: "Dispatcher",
-      },
-      deliverer: {
-        id: "63bd33a9e03f596350f8afb3",
-        email: data.get("delivererEmail"),
-        actorType: "Deliverer",
-      },
-      client: {
-        id: "63bd2d47dea40908ea916896",
-        email: data.get("clientEmail"),
-        actorType: "Client",
-      },
-      street: data.get("street"),
-      orderStatus: data.get("orderStatus"),
+      id: id,
+      email: data.get("Email"),
+      pass: data.get("Password"),
     };
-    dispatch(addOrder(formData));
+    dispatch(editClient(formData));
     // Call the function passed through props and pass the form data as an argument
     console.log(formData);
     setOpen(false);
   };
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Order
-      </Button>
+      <Button onClick={handleClickOpen}>Edit</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Order</DialogTitle>
         <DialogContent>
@@ -74,39 +57,18 @@ export default function FormDialog() {
               fullWidth
             />
             <TextField
-              id="dispatcherEmail"
-              label="Dispatcher Email"
+              id="Email"
+              label="Email"
               variant="outlined"
-              name="dispatcherEmail"
+              name="Email"
               fullWidth
             />
 
             <TextField
-              id="clientEmail"
-              label="Customer Email"
+              id="Password"
+              label="Password"
               variant="outlined"
-              name="clientEmail"
-              fullWidth
-            />
-            <TextField
-              id="delivererEmail"
-              label="Deliverer Email"
-              variant="outlined"
-              name="delivererEmail"
-              fullWidth
-            />
-            <TextField
-              id="street"
-              label="Street"
-              variant="outlined"
-              name="street"
-              fullWidth
-            />
-            <TextField
-              id="orderStatus"
-              label="orderStatus"
-              variant="outlined"
-              name="orderStatus"
+              name="Password"
               fullWidth
             />
             <Button type="submit" variant="contained" color="primary">

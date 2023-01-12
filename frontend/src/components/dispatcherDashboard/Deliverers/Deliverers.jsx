@@ -1,13 +1,12 @@
 import * as React from "react";
-import AddDiapatcher from "./addDispatcher";
-import Table from "./table";
+import AddDeliver from "./addDeliverer";
+import Table from "./delivererTable";
 import { Grid } from "@mui/material";
-
-export default function Dispatchers() {
+export default function Orders() {
   return (
     <Grid component="span" container spacing={2}>
       <Grid component="span" xs={12} item>
-        <AddDiapatcher />
+        <AddDeliver />
       </Grid>
       <Table />
     </Grid>
