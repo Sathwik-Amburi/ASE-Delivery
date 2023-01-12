@@ -146,6 +146,8 @@ public class OrderController {
 
         Returns a created order item, i.e. an object with fields
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
+        Fails if the new order refers to the actors which don't exist in the actor table.
+        Fails if the new order's deliverer already has an undelivered order
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" \

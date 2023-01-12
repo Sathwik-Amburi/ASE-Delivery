@@ -71,6 +71,7 @@ public class ActorController {
         EMAIL and PASS are user strings
 
         Returns a created actor item, i.e. an object with fields (id, email, actorType)
+        Fails if the new actor has an email which is already presented in the actor table.
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Client

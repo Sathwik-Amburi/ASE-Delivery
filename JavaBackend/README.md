@@ -72,6 +72,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
         EMAIL and PASS are user strings
 
         Returns a created actor item, i.e. an object with fields (id, email, actorType)
+        Fails if the new actor has an email which is already presented in the actor table.
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Client
@@ -163,6 +164,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
          "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
          "street":"ErsteStraße","orderStatus":"Delivered"}]
       
+
 ### Return undelivered order assigned to a specified deliverer
 
     Usage:
@@ -192,6 +194,8 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     
     Returns a created order item, i.e. an object with fields
         (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
+    Fails if the new order refers to the actors which don't exist in the actor table.
+    Fails if the new order's deliverer already has an undelivered order
     
     Example:
     >> curl -X POST -H "Content-Type: application/json" \
