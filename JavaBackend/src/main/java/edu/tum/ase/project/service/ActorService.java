@@ -30,7 +30,7 @@ public class ActorService {
     }
 
     public List<Actor> getAllActorsByType(ActorType actorType) {
-        return actorRepository.findAll();
+        return actorRepository.findAllByActorType(actorType);
     }
 
     public void deleteActor(String ActorId) throws ObjectDoesNotExist {

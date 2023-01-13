@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
-@RequestMapping("/{actorType}")  // possible "Client", "Dispatcher", "Deliverer" or "AllActors"
+@RequestMapping("/{actorType}")  // possible "client", "dispatcher", "dispatcher" or "all-actors"
 public class ActorController {
     @Autowired
     ActorService actorService;
@@ -38,20 +38,20 @@ public class ActorController {
         Returns all the actors or all the actors of the specified type
 
         Usage:
-        curl -X GET localhost:8080/AllActors  # returns all the actors
-        curl -X GET localhost:8080/Client  # returns all the Clients
-        curl -X GET localhost:8080/Dispatcher  # returns all the Dispatchers
-        curl -X GET localhost:8080/Deliverer  # returns all the Deliverers
+        curl -X GET localhost:8080/all-actors  # returns all the actors
+        curl -X GET localhost:8080/client  # returns all the clients
+        curl -X GET localhost:8080/dispatcher  # returns all the dispatchers
+        curl -X GET localhost:8080/dispatcher  # returns all the dispatchers
 
         Return value is the list of items (id, email, actorType)
 
         Example:
-        >> curl -X GET localhost:8080/Client
+        >> curl -X GET localhost:8080/client
         << status code 200
-           [{"id":"638d2a011064dc1a387acc8e","email":"babushka@gmail.ru","actorType":"Client"},
-            {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"Dispatcher"}]
+           [{"id":"638d2a011064dc1a387acc8e","email":"babushka@gmail.ru","actorType":"client"},
+            {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"dispatcher"}]
         */
-        if (Objects.equals(actorTypeStr, "AllActors")){
+        if (Objects.equals(actorTypeStr, "all-actors")){
             return actorService.getAllActors();
         }
         return actorService.getAllActorsByType(str2actorType(actorTypeStr));
@@ -65,26 +65,26 @@ public class ActorController {
         Creates an actor item
 
         Usage:
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/Client  # create a new Client
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/Dispatcher  # create a new Dispatcher
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/Deliverer  # create a new Deliverer
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/client  # create a new client
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/dispatcher  # create a new dispatcher
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>, "pass": <PASS>}' localhost:8080/dispatcher  # create a new dispatcher
         EMAIL and PASS are user strings
 
         Returns a created actor item, i.e. an object with fields (id, email, actorType)
         Fails if the new actor has an email which is already presented in the actor table.
 
         Example:
-        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/Client
+        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ssw0rd"}' localhost:8080/client
         << status code 200
-           {"id":"63bd25a327dcd14c6d30451c","email":"babushka@gmail.ru","actorType":"Client"}
+           {"id":"63bd25a327dcd14c6d30451c","email":"babushka@gmail.ru","actorType":"client"}
 
-        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ss"}' localhost:8080/Client  # try to add a new actor with the same email
+        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru", "pass": "p@ss"}' localhost:8080/client  # try to add a new actor with the same email
         << status code 500
-           {"timestamp":"2023-01-10T09:20:25.186+00:00","status":500,"error":"Internal Server Error","path":"/Client"}
+           {"timestamp":"2023-01-10T09:20:25.186+00:00","status":500,"error":"Internal Server Error","path":"/client"}
 
-        >> curl -i -X POST -H "Content-Type: application/json" -d '{"email": "fish@gmail.ru"}' localhost:8080/Client  # no "pass" filed
+        >> curl -i -X POST -H "Content-Type: application/json" -d '{"email": "fish@gmail.ru"}' localhost:8080/client  # no "pass" filed
         << status code 400
-           {"timestamp":"2023-01-10T08:48:32.783+00:00","status":400,"error":"Bad Request","path":"/Client"}
+           {"timestamp":"2023-01-10T08:48:32.783+00:00","status":400,"error":"Bad Request","path":"/client"}
         */
         String email;
         String pass;
@@ -104,17 +104,17 @@ public class ActorController {
         Returns an actor by email
 
         Usage
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/Client/email  # find a Client
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/Dispatcher/email  # find a Dispatcher
-        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/Deliverer/email  # find a Deliverer
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/client/email  # find a client
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/dispatcher/email  # find a dispatcher
+        curl -X POST -H "Content-Type: application/json" -d '{"email": <EMAIL>}' localhost:8080/dispatcher/email  # find a dispatcher
         EMAIL is a user string
 
         Returns the actor item, i.e. an object with fields (id, email, actorType) or null
 
         Example:
-        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru"}' localhost:8080/Client/email
+        >> curl -X POST -H "Content-Type: application/json" -d '{"email": "babushka@gmail.ru"}' localhost:8080/client/email
         << status code 200
-           {"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"}
+           {"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"}
         */
         String email;
         try {
@@ -131,20 +131,20 @@ public class ActorController {
         Deletes an actor by id
 
         Usage
-        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Client  # delete a Client
-        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Dispatcher  # delete a Dispatcher
-        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Deliverer  # delete a Deliverer
+        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/client  # delete a client
+        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/dispatcher  # delete a dispatcher
+        curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/dispatcher  # delete a dispatcher
         ACTOR_ID is a String representing Id of an object from the actor database
 
         Returns only status code (or an error)
 
         Example:
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "63bd3438e03f596350f8afb5"}' localhost:8080/Client
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "63bd3438e03f596350f8afb5"}' localhost:8080/client
         << status code 200
 
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "63bd3438e03f596350f8afb5"}' localhost:8080/Client  # try to delete a key missing from the table
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "63bd3438e03f596350f8afb5"}' localhost:8080/client  # try to delete a key missing from the table
         << status code 406
-           {"timestamp":"2023-01-10T09:48:24.762+00:00","status":406,"error":"Not Acceptable","path":"/Client"}
+           {"timestamp":"2023-01-10T09:48:24.762+00:00","status":406,"error":"Not Acceptable","path":"/client"}
         */
         String actorId;
         try {

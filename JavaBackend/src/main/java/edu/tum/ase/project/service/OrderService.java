@@ -29,17 +29,17 @@ public class OrderService {
                     delivererId, order.get().getId()));
         }
 
-        Optional<Actor> dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.Dispatcher);
+        Optional<Actor> dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.dispatcher);
         if (dispatcher.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A dispatcher with id '%s' does not exist", dispatcherId));
         }
 
-        Optional<Actor> deliverer = actorRepository.findByIdAndActorType(delivererId, ActorType.Deliverer);
+        Optional<Actor> deliverer = actorRepository.findByIdAndActorType(delivererId, ActorType.deliverer);
         if (deliverer.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A deliverer with id '%s' does not exist", delivererId));
         }
 
-        Optional<Actor> client = actorRepository.findByIdAndActorType(clientId, ActorType.Client);
+        Optional<Actor> client = actorRepository.findByIdAndActorType(clientId, ActorType.client);
         if (client.isEmpty()) {
             throw new ObjectDoesNotExist(String.format("A client with id '%s' does not exist", delivererId));
         }
@@ -54,9 +54,9 @@ public class OrderService {
 
     public List<Order> getAllOrdersByActor(ActorType actorType, String actorId) {
         return switch (actorType) {
-            case Client -> orderRepository.findAllByClientId(actorId);
-            case Deliverer -> orderRepository.findAllByDelivererId(actorId);
-            case Dispatcher -> orderRepository.findAllByDispatcherId(actorId);
+            case client -> orderRepository.findAllByClientId(actorId);
+            case deliverer -> orderRepository.findAllByDelivererId(actorId);
+            case dispatcher -> orderRepository.findAllByDispatcherId(actorId);
         };
     }
 

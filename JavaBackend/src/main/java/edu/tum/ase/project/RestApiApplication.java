@@ -33,10 +33,10 @@ public class RestApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
-		List<Actor> clientList = clientService.getAllActorsByType(ActorType.Client);
+		List<Actor> clientList = clientService.getAllActorsByType(ActorType.client);
 		for (Actor client : clientList){
 			log.info(client.toString());
 		}
-		log.info("Number of Clients in Database is " + clientList.size());
+		log.info("Number of clients in Database is " + clientList.size());
 	}
 }

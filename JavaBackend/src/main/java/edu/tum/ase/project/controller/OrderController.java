@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
-@RequestMapping("/Order")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
@@ -49,18 +49,18 @@ public class OrderController {
         Returns all the orders
 
         Usage:
-        curl -X GET localhost:8080/Order
+        curl -X GET localhost:8080/order
 
         Return value is the list of items
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X GET localhost:8080/Order
+        >> curl -X GET localhost:8080/order
         << status code 200
            [{"id":"63bd6531f5305824ce4b9854",
-             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
-             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},
              "street":"ErsteStraße","orderStatus":"OnItsWay"}]
         */
         return orderService.getAllOrders();
@@ -73,21 +73,21 @@ public class OrderController {
         Returns all the orders of a specified actor
 
         Usage:
-        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Client
-        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Deliverer
-        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/Order/Dispatcher
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/order/client
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/order/dispatcher
+        curl -X POST -H "Content-Type: application/json" -d '{"actorId": <ACTOR_ID>}' localhost:8080/order/dispatcher
         ACTOR_ID is a user string representing Id of an object from the actor database
 
         Return value is the list of items
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X POST -H "Content-Type: application/json" -d '{"actorId": "63bd2d47dea40908ea916896"}' localhost:8080/Order/Client
+        >> curl -X POST -H "Content-Type: application/json" -d '{"actorId": "63bd2d47dea40908ea916896"}' localhost:8080/order/client
         << status code 200
            [{"id":"63bd6531f5305824ce4b9854",
-             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
-             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},
+             "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},
              "street":"ErsteStraße","orderStatus":"Delivered"}]
         */
         String actorId;
@@ -99,25 +99,25 @@ public class OrderController {
         return orderService.getAllOrdersByActor(str2actorType(actorTypeStr), actorId);
     }
 
-    @PostMapping("/getUndelivOrderByDeliverer")
+    @PostMapping("/get-undeliv-order-by-deliverer")
     public Order getUndelivOrderByDeliverer(@RequestBody ObjectNode json){
         /*
         Returns undelivered order assigned to a specified deliverer
 
         Usage:
-        curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/Order/getUndelivOrderByDeliverer
+        curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/order/get-undeliv-order-by-deliverer
         DELIVERER_ID is a user string representing Id of an object from the actor database
 
         Returns a created order item, i.e. an object with fields
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/Order/getUndelivOrderByDeliverer
+        >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/order/get-undeliv-order-by-deliverer
         << status code 200
             {"id":"63bd3723e03f596350f8afb6",
-            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
-            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
         */
         String delivererId;
         try {
@@ -141,7 +141,7 @@ public class OrderController {
         Usage:
         curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": <DISPATCHER_ID>, "delivererId": <DELIVERER_ID>, "clientId": <CLIENT_ID>, "street": "ErsteStraße"}' \
-            localhost:8080/Order
+            localhost:8080/order
         DISPATCHER_ID, DELIVERER_ID and CLIENT_ID are user strings representing Ids of objects from the actor database
 
         Returns a created order item, i.e. an object with fields
@@ -152,17 +152,17 @@ public class OrderController {
         Example:
         >> curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": "63bd33a9e03f596350f8afb2", "delivererId": "63bd33a9e03f596350f8afb3", "clientId": "63bd2d47dea40908ea916896", "street": "ErsteStraße"}' \
-            localhost:8080/Order
+            localhost:8080/order
         << status code 200
             {"id":"63bd3723e03f596350f8afb6",
-            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
-            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
         >> curl -X POST -H "Content-Type: application/json" \
             -d '{"dispatcherId": "1", "delivererId": "2", "clientId": "3", "street": "ErsteStraße"}' \
-            localhost:8080/Order  # not existing ids
+            localhost:8080/order  # not existing ids
         << status code 406
-           {"timestamp":"2023-01-10T10:02:29.693+00:00","status":406,"error":"Not Acceptable","path":"/Order"}
+           {"timestamp":"2023-01-10T10:02:29.693+00:00","status":406,"error":"Not Acceptable","path":"/order"}
         */
         String dispatcherId;
         String delivererId;
@@ -189,20 +189,20 @@ public class OrderController {
         Updates an order status
 
         Usage:
-        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "Delivered"}' localhost:8080/Order
-        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "OnItsWay"}' localhost:8080/Order
+        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "Delivered"}' localhost:8080/order
+        curl -X PUT -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>, "newOrderStatus": "OnItsWay"}' localhost:8080/order
         ORDER_ID is a user string representing Id of an object from the order database
 
         Returns a created order item, i.e. an object with fields
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
 
         Example:
-        >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/Order
+        >> curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6", "newOrderStatus": "Delivered"}' localhost:8080/order
         << status code 200
             {"id":"63bd3723e03f596350f8afb6",
-            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"Dispatcher"},
-            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"Deliverer"},
-            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"Client"},"orderStatus":"OnItsWay"}
+            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
         */
         String orderId;
         String orderStatusStr;
@@ -225,18 +225,18 @@ public class OrderController {
         Deletes an order by id
 
         Usage
-        curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/Order
+        curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": <ORDER_ID>}' localhost:8080/order
         ORDER_ID is a user string representing Id of an object from the order database
 
         Returns only status code (or an error)
 
         Example:
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/order
         << status code 200
 
-        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/Order  # try to delete a key missing from the table
+        >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/order  # try to delete a key missing from the table
         << status code 406
-           {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/Order"}
+           {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/order"}
         */
         String orderId;
         try {
