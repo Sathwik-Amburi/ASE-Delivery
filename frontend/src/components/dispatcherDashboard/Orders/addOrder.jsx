@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch } from "react-redux";
 import { Box } from "@mui/material";
-import { addOrder } from "../../../features/order/orderSlice";
+import { addOrder } from "../../features/order/orderSlice";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);

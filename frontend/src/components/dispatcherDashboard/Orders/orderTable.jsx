@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import Edit from "./editOrder";
-import { deleteOrder } from "../../../features/order/orderSlice";
+import { deleteOrder } from "../../features/order/orderSlice";
 
 export default function BasicTable() {
   const { orderList } = useSelector((state) => state.orders);
@@ -23,7 +23,7 @@ export default function BasicTable() {
             <TableCell>Order ID</TableCell>
             <TableCell align="right">Dispatcher Email</TableCell>
             <TableCell align="right">Deliverer Email</TableCell>
-            <TableCell align="right">Customer Email</TableCell>
+            <TableCell align="right">Dispatcher Email</TableCell>
             <TableCell align="right">Street</TableCell>
             <TableCell align="right">Order Status</TableCell>
             <TableCell align="right">Actions</TableCell>

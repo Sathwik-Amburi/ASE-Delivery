@@ -1,18 +1,16 @@
-import * as React from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useDispatch } from "react-redux";
-import { Box } from "@mui/material";
-import { addDispatcher } from "../../../features/dispatcher/dispatcherSlice";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import Box from "@mui/material/Box";
+import { useCallback } from "react";
 
-export default function FormDialog() {
+function AddDispatcher({ onSubmit }) {
   const [open, setOpen] = React.useState(false);
-  const dispatch = useDispatch();
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -20,28 +18,42 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Get the form data
-    const data = new FormData(event.currentTarget);
-    const formData = {
-      id: data.get("ID"),
-      email: data.get("Email"),
-      pass: data.get("Password"),
-    };
-    dispatch(addDispatcher(formData));
-    // Call the function passed through props and pass the form data as an argument
-    console.log(formData);
-    setOpen(false);
-  };
+
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      // Get the form data
+      const data = new FormData(event.currentTarget);
+      const formData = {
+        id: data.get("ID"),
+        Name: data.get("Name"),
+        Address: data.get("Address"),
+        State: data.get("State"),
+        CustomerName: data.get("CustomerName"),
+        DelivererName: data.get("DelivererName"),
+      };
+
+      // Call the function passed through props and pass the form data as an argument
+      onSubmit(formData);
+    },
+    [onSubmit]
+  );
+
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Dipatcher
+    <>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Add Dispatcher
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Order</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Box</DialogTitle>
         <DialogContent>
+          <DialogContentText>
+            To add a new box, please enter the following information:
+          </DialogContentText>
           <Box
             component="form"
             sx={{
@@ -59,18 +71,38 @@ export default function FormDialog() {
               fullWidth
             />
             <TextField
-              id="Email"
-              label="Email"
+              id="Name"
+              label="Name"
               variant="outlined"
-              name="Email"
+              name="Name"
               fullWidth
             />
-
             <TextField
-              id="Password"
-              label="Password"
+              id="Address"
+              label="Address"
               variant="outlined"
-              name="Password"
+              name="Address"
+              fullWidth
+            />
+            <TextField
+              id="State"
+              label="State"
+              variant="outlined"
+              name="State"
+              fullWidth
+            />
+            <TextField
+              id="CustomerName"
+              label="Customer Name"
+              variant="outlined"
+              name="CustomerName"
+              fullWidth
+            />
+            <TextField
+              id="DelivererName"
+              label="Deliverer Name"
+              variant="outlined"
+              name="DelivererName"
               fullWidth
             />
             <Button type="submit" variant="contained" color="primary">
@@ -78,8 +110,12 @@ export default function FormDialog() {
             </Button>
           </Box>
         </DialogContent>
-        <DialogActions></DialogActions>
       </Dialog>
-    </div>
+      <Button>
+        <RefreshIcon />
+      </Button>
+    </>
   );
 }
+
+export default AddDispatcher;

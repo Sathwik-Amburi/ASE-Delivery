@@ -1,6 +1,6 @@
 import * as React from "react";
 import AddDeliver from "./addDeliverer";
-import Table from "./delivererTable";
+import Table from "./table";
 import { Grid } from "@mui/material";
 export default function Orders() {
   return (
@@ -8,7 +8,9 @@ export default function Orders() {
       <Grid component="span" xs={12} item>
         <AddDeliver />
       </Grid>
-      <Table />
+      <Grid component="span" item>
+        <Table />
+      </Grid>
     </Grid>
   );
 }

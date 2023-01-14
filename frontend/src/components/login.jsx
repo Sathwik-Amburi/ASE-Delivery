@@ -10,14 +10,12 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LandingPage from "./landingPage";
 import Copyright from "./copyright";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../features/user/userSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SignInSide() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("dispatcher");
   const handleSubmit = (event) => {
@@ -28,12 +26,6 @@ export default function SignInSide() {
       password: data.get("password"),
       role: userRole,
     });
-    const formData = {
-      id: "123",
-      email: data.get("email"),
-      role: userRole,
-    };
-    dispatch(updateUser(formData));
     if (userRole === "dispatcher") {
       navigate("/dispatcher");
     } else if (userRole === "customer") {

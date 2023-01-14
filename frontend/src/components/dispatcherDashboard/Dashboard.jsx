@@ -2,10 +2,11 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Orders from "./Orders/Orders";
-import Customers from "./Clients/Customers";
-import Dispatchers from "./Dispatchers/Dispatchers";
-import Deliverers from "./Deliverers/Deliverers";
+import { Typography } from "@mui/material";
+import Orders from "./Orders";
+import Customers from "./Customers";
+import Dispatchers from "./Dispatchers";
+import Deliverers from "./Deliverers";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

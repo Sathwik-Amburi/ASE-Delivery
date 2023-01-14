@@ -1,6 +1,6 @@
 import * as React from "react";
 import AddDiapatcher from "./addDispatcher";
-import Table from "./dispatcherTable";
+import Table from "./table";
 import { Grid } from "@mui/material";
 
 export default function Dispatchers() {
