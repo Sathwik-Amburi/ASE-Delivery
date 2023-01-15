@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Preparation:
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+nvm install 18.13.0
+export NODE_OPTIONS=--openssl-legacy-provider
+
+sudo apt install npm
+npm i
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
