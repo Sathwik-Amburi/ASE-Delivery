@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getDeliverers } from "../../features/deliverer/delivererSlice";
 import { getDispatchers } from "../../features/dispatcher/dispatcherSlice";
+import { getOrders } from "../../features/order/orderSlice";
 
 function TabPanel(props) {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ function TabPanel(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getDispatchers());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    dispatch(getOrders());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { children, value, index, ...other } = props;

@@ -1,30 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const order = {
-  id: "63bd6531f5305824ce4b9854",
-  dispatcher: {
-    id: "63bd33a9e03f596350f8afb2",
-    email: "disp@gmail.ru",
-    actorType: "Dispatcher",
-  },
-  deliverer: {
-    id: "63bd33a9e03f596350f8afb3",
-    email: "del@gmail.ru",
-    actorType: "Deliverer",
-  },
-  client: {
-    id: "63bd2d47dea40908ea916896",
-    email: "babushka@gmail.ru",
-    actorType: "Client",
-  },
-  street: "ErsteStraße",
-  orderStatus: "OnItsWay",
-};
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
-  orderList: [order],
+  orderList: [],
   isLoading: true,
 };
+
+export const getOrders = createAsyncThunk(
+  "orders/getOrders",
+  async (name, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `http://${process.env.REACT_APP_API_URL}/order`
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "orders",
@@ -56,6 +50,20 @@ const orderSlice = createSlice({
       const id = action.payload;
       state.orderList = state.orderList.filter((order) => order.id !== id);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.orderList = action.payload;
+      })
+      .addCase(getOrders.rejected, (state) => {
+        state.isLoading = false;
+        state.dispatcherList = [];
+      });
   },
 });
 
