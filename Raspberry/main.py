@@ -1,6 +1,7 @@
 import const
 from datetime import timedelta, datetime
 import time
+import json
 
 from serverCommunicator import ServerCommunicator, ActorType
 from utils import HardwareController, BoxState, LEDState
@@ -33,6 +34,13 @@ def main_loop():
         server_address=const.SERVER_ADDRESS,
         rasp_name=const.RASP_NAME,
         rasp_pass=const.RASP_PASS)
+
+    with open("config/conf.json") as f:
+        data = json.load(f)
+        id = data["id"]
+        name = data["name"]
+        address = data["address"]
+
     print('Main loop is running')
     while True:
         RFID_result, order_id = check_RFID_name(
