@@ -25,7 +25,6 @@ export default function FormDialog() {
     // Get the form data
     const data = new FormData(event.currentTarget);
     const formData = {
-      id: data.get("ID"),
       email: data.get("Email"),
       pass: data.get("Password"),
     };
@@ -37,7 +36,7 @@ export default function FormDialog() {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Add Customer
+        Add Deliverer
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Order</DialogTitle>
@@ -51,13 +50,6 @@ export default function FormDialog() {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
-            <TextField
-              id="ID"
-              label="ID"
-              variant="outlined"
-              name="ID"
-              fullWidth
-            />
             <TextField
               id="Email"
               label="Email"
