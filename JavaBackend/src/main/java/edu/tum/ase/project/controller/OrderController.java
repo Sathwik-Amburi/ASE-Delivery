@@ -43,6 +43,7 @@ public class OrderController {
         return actorType;
     }
 
+    @CrossOrigin
     @GetMapping("")
     public List<Order> getAllOrders() {
         /*
@@ -66,6 +67,7 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
+    @CrossOrigin
     @PostMapping("/{actorType}")
     public List<Order> getAllOrdersByActor(@PathVariable(value = "actorType") final String actorTypeStr,
                                     @RequestBody ObjectNode json) {
@@ -99,6 +101,7 @@ public class OrderController {
         return orderService.getAllOrdersByActor(str2actorType(actorTypeStr), actorId);
     }
 
+    @CrossOrigin
     @PostMapping("/get-undeliv-order-by-deliverer")
     public Order getUndelivOrderByDeliverer(@RequestBody ObjectNode json){
         /*
@@ -133,6 +136,7 @@ public class OrderController {
         return order.get();
     }
 
+    @CrossOrigin
     @PostMapping("")
     public Order createOrder(@RequestBody ObjectNode json) {
         /*
@@ -183,6 +187,7 @@ public class OrderController {
         }
     }
 
+    @CrossOrigin
     @PutMapping("")
     public Order updateOrderStatus(@RequestBody ObjectNode json) {
         /*
@@ -219,6 +224,7 @@ public class OrderController {
         }
     }
 
+    @CrossOrigin
     @DeleteMapping("")
     public void deleteOrderById(@RequestBody ObjectNode json){
         /*
