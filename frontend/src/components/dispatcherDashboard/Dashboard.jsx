@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { getDeliverers } from "../../features/deliverer/delivererSlice";
 import { getDispatchers } from "../../features/dispatcher/dispatcherSlice";
 import { getOrders } from "../../features/order/orderSlice";
+import Qrcode from "./QRCode";
 
 function TabPanel(props) {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ export default function CenteredTabs() {
       <TabPanel value={value} index={3}>
         <Deliverers />
       </TabPanel>
+      <Qrcode />
     </Box>
   );
 }
