@@ -1,16 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const dispatcher = {
-  id: "63bd2d47dea40908ea916896",
-  email: "babushka@gmail.ru",
-  pass: "p@ss",
-  role: "Dispatcher",
-};
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
-  dispatcherList: [dispatcher],
+  dispatcherList: [],
   isLoading: true,
 };
+
+export const getDispatchers = createAsyncThunk(
+  "dispatchers/getDispatchers",
+  async (name, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `http://${process.env.REACT_APP_API_URL}/dispatcher`
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
+export const addDispatcher = createAsyncThunk(
+  "dispatchers/addDispatcher",
+  async (dispatcher, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/dispatcher`,
+        dispatcher
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
 
 const dispatcherSlice = createSlice({
   name: "dispatchers",
@@ -37,8 +60,30 @@ const dispatcherSlice = createSlice({
       );
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDispatchers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getDispatchers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.dispatcherList = action.payload;
+      })
+      .addCase(getDispatchers.rejected, (state) => {
+        state.isLoading = false;
+        state.dispatcherList = [];
+      })
+      .addCase(addDispatcher.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addDispatcher.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.dispatcherList.push(action.payload);
+      })
+      .addCase(addDispatcher.rejected, (state) => {
+        state.isLoading = false;
+      });
+  },
 });
-
 export default dispatcherSlice.reducer;
-export const { editDispatcher, addDispatcher, deleteDispatcher } =
-  dispatcherSlice.actions;
+export const { editDispatcher, deleteDispatcher } = dispatcherSlice.actions;

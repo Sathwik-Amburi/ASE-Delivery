@@ -6,8 +6,24 @@ import Orders from "./Orders/Orders";
 import Customers from "./Clients/Customers";
 import Dispatchers from "./Dispatchers/Dispatchers";
 import Deliverers from "./Deliverers/Deliverers";
+import { getClients } from "../../features/client/clientSlice";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getDeliverers } from "../../features/deliverer/delivererSlice";
+import { getDispatchers } from "../../features/dispatcher/dispatcherSlice";
 
 function TabPanel(props) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getClients());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    dispatch(getDeliverers());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    dispatch(getDispatchers());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const { children, value, index, ...other } = props;
 
   return (

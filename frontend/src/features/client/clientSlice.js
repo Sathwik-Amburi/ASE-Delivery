@@ -1,16 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const client = {
-  id: "63bd2d47dea40908ea916896",
-  email: "babushka@gmail.ru",
-  pass: "p@ss",
-  role: "Client",
-};
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
-  clientList: [client],
+  clientList: [],
   isLoading: true,
 };
+
+export const getClients = createAsyncThunk(
+  "clients/getClients",
+  async (name, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `http://${process.env.REACT_APP_API_URL}/client`
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
+export const addClient = createAsyncThunk(
+  "clients/addClient",
+  async (client, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/client`,
+        client
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
+// export const deleteClient = createAsyncThunk(
+//   "clients/deleteClient",
+//   async (id, thunkAPI) => {
+//     try {
+//       const response = await axios.delete(`http://localhost:8080/client/${id}`);
+//       return id;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue("something went wrong");
+//     }
+//   }
+// );
 
 const clientSlice = createSlice({
   name: "clients",
@@ -24,16 +59,46 @@ const clientSlice = createSlice({
         client.pass = pass;
       }
     },
-    addClient: (state, action) => {
-      const formData = action.payload;
-      state.clientList.push(formData);
-    },
     deleteClient: (state, action) => {
       const id = action.payload;
       state.clientList = state.clientList.filter((client) => client.id !== id);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getClients.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getClients.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.clientList = action.payload;
+      })
+      .addCase(getClients.rejected, (state) => {
+        state.isLoading = false;
+        state.clientList = [];
+      })
+      .addCase(addClient.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addClient.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.clientList.push(action.payload);
+      })
+      .addCase(addClient.rejected, (state) => {
+        state.isLoading = false;
+      });
+    // .addCase(deleteClient.pending, (state) => {
+    //   state.isLoading = true;
+    // })
+    // .addCase(deleteClient.fulfilled, (state, action) => {
+    //   state.isLoading = false;
+    //   state.clientList.push(action.payload);
+    // })
+    // .addCase(deleteClient.rejected, (state) => {
+    //   state.isLoading = false;
+    // });
+  },
 });
 
 export default clientSlice.reducer;
-export const { editClient, addClient, deleteClient } = clientSlice.actions;
+export const { editClient, deleteClient } = clientSlice.actions;
