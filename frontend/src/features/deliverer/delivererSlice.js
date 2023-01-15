@@ -1,16 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const deliverer = {
-  id: "63bd2d47dea40908ea916896",
-  email: "babushka@gmail.ru",
-  pass: "p@ss",
-  role: "Deliverer",
-};
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
-  delivererList: [deliverer],
+  delivererList: [],
   isLoading: true,
 };
+
+export const getDeliverers = createAsyncThunk(
+  "deliverers/getdeliverers",
+  async (name, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `http://${process.env.REACT_APP_API_URL}/deliverer`
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
+export const addDeliverer = createAsyncThunk(
+  "deliverers/addDeliverer",
+  async (deliverer, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/deliverer`,
+        deliverer
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
 
 const delivererSlice = createSlice({
   name: "deliverers",
@@ -26,10 +49,6 @@ const delivererSlice = createSlice({
         deliverer.pass = pass;
       }
     },
-    addDeliverer: (state, action) => {
-      const formData = action.payload;
-      state.delivererList.push(formData);
-    },
     deleteDeliverer: (state, action) => {
       const id = action.payload;
       state.delivererList = state.delivererList.filter(
@@ -37,8 +56,31 @@ const delivererSlice = createSlice({
       );
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDeliverers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getDeliverers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.delivererList = action.payload;
+      })
+      .addCase(getDeliverers.rejected, (state) => {
+        state.isLoading = false;
+        state.delivererList = [];
+      })
+      .addCase(addDeliverer.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addDeliverer.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.delivererList.push(action.payload);
+      })
+      .addCase(addDeliverer.rejected, (state) => {
+        state.isLoading = false;
+      });
+  },
 });
 
 export default delivererSlice.reducer;
-export const { editDeliverer, addDeliverer, deleteDeliverer } =
-  delivererSlice.actions;
+export const { editDeliverer, deleteDeliverer } = delivererSlice.actions;
