@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos/1")
+      .get("http://localhost:8080/client")
       .then((response) => {
         setResponse(response);
         console.log(response);
