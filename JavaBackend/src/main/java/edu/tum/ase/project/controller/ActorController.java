@@ -32,6 +32,7 @@ public class ActorController {
         return actorType;
     }
 
+    @CrossOrigin
     @GetMapping("")
     public List<Actor> getAllActors(@PathVariable(value = "actorType") final String actorTypeStr) {
         /*
@@ -57,6 +58,7 @@ public class ActorController {
         return actorService.getAllActorsByType(str2actorType(actorTypeStr));
     }
 
+    @CrossOrigin
     @PostMapping("")
     @ResponseBody
     public Actor createActor(@PathVariable(value = "actorType") final String actorTypeStr,
@@ -97,6 +99,8 @@ public class ActorController {
         return actorService.createActor(email, pass, str2actorType(actorTypeStr));
     }
 
+
+    @CrossOrigin
     @PostMapping("/email")
     public Optional<Actor> getActorByEmail(@PathVariable(value = "actorType") final String actorTypeStr,
                                            @RequestBody ObjectNode json) {
@@ -125,6 +129,7 @@ public class ActorController {
         return actorService.findByActorTypeAndEmail(email, str2actorType(actorTypeStr));
     }
 
+    @CrossOrigin
     @DeleteMapping("")
     public void deleteActorById(@RequestBody ObjectNode json, @PathVariable String actorType){
         /*
