@@ -39,6 +39,10 @@ public class Actor {
         return this.actorType;
     }
 
+    public String getPass() {
+        return this.pass;
+    }
+
     public boolean comparePass(String pass) {
         return pass.equals(this.pass);
     }
