@@ -17,6 +17,7 @@ class ServerCommunicator:
         self.server_address = server_address
         self.session = requests.Session()
         self.data_params_id = {'delivererId': rasp_name}
+        self.header = {'Content-type': 'application/json'}
 
         # for authentication
         # self.session.auth = (rasp_name, rasp_pass)
@@ -31,8 +32,9 @@ class ServerCommunicator:
             user_set = {"lol", "kek", "Danya                                           "}
             return actor_id in user_set
 
-        url = os.path.join(self.server_address, 'Order/getUndelivOrderByDeliverer')
-        response = self.session.post(url, data=self.data_params_id)
+        url = os.path.join(self.server_address, 'order/get-undeliv-order-by-deliverer')
+        print(f"url: {url}, json: {self.data_params_id}")
+        response = self.session.post(url, json=self.data_params_id)
         print(f'INFO for check_person_name\nURL: "{url}", DATA: {self.data_params_id}\n'
               f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code == 406:
@@ -58,9 +60,9 @@ class ServerCommunicator:
         return result, order_id
 
     def set_order_delivered(self, order_id: str) -> bool:
-        url = os.path.join(self.server_address, 'Order/updateOrderStatus')
+        url = os.path.join(self.server_address, 'order')
         params = {'orderId': order_id, 'newOrderStatus': 'Delivered'}
-        response = self.session.put(url, data=params)
+        response = self.session.put(url, headers=self.header, json=params)
         print(f'INFO for set_order_delivered\nURL: "{url}", DATA: {params}\n'
               f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code != 200:
@@ -74,9 +76,9 @@ class ServerCommunicator:
 if __name__ == '__main__':
     # test ServerCommunicator
     serverCommunicator = ServerCommunicator(
-        server_address=const.SERVER_ADDRESS, rasp_name=const.RASP_NAME, rasp_pass=const.RASP_PASS)
+        server_address="http://127.0.0.1:8080", rasp_name=const.RASP_NAME, rasp_pass=const.RASP_PASS)
 
-    kek1 = serverCommunicator.check_person_name(actor_id="638f0fc1b39edb53d3f173d4", a_type=ActorType.CLIENT)
+    kek1 = serverCommunicator.check_person_name(actor_id="63c1778662cd023293ebaaa1", a_type=ActorType.CLIENT)
     print(kek1)
 
     order_id = kek1[1]
