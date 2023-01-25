@@ -2,6 +2,7 @@ package edu.tum.ase.project.service;
 
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.repository.ActorRepository;
+import edu.tum.ase.project.utils.PropertiesReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,10 +21,15 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
+    @Autowired
+    private PropertiesReader props;
+
     public String sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        // TODO: read setFrom() value from application.properties
-        message.setFrom("angryfish.project.ase@gmail.com");
+
+        String sender = props.getProperty("spring.mail.username");
+
+        message.setFrom(sender);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -33,12 +39,7 @@ public class EmailService {
     }
 
     public String sendDeliveryCreatedMail(String id) {
-        Optional<Actor> actor = actorRepository.findById(id);
-        if (actor.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("customer with id %s not found", id));
-        }
-
-        String to = actor.get().getEmail();
+        String to = "angryfish.project.ase@gmail.com";
         String subject = "Your delivery has been created";
         String text = "Your delivery has been created!";
 
