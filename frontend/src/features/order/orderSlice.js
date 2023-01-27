@@ -19,6 +19,20 @@ export const getOrders = createAsyncThunk(
     }
   }
 );
+export const addOrder = createAsyncThunk(
+  "orders/addOrder",
+  async (formData, thunkAPI) => {
+    try {
+      const resp = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/order`,
+        formData
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "orders",
@@ -42,10 +56,6 @@ const orderSlice = createSlice({
         order.orderStatus = orderStatus;
       }
     },
-    addOrder: (state, action) => {
-      const formData = action.payload;
-      state.orderList.push(formData);
-    },
     deleteOrder: (state, action) => {
       const id = action.payload;
       state.orderList = state.orderList.filter((order) => order.id !== id);
@@ -63,9 +73,18 @@ const orderSlice = createSlice({
       .addCase(getOrders.rejected, (state) => {
         state.isLoading = false;
         state.dispatcherList = [];
+      })
+      .addCase(addOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(addOrder.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
 
 export default orderSlice.reducer;
-export const { editOrder, addOrder, deleteOrder } = orderSlice.actions;
+export const { editOrder, deleteOrder } = orderSlice.actions;
