@@ -4,3 +4,20 @@ build-frontend:
   script:
     - cd $FRONTEND_DIR
     - npm i
+    
+publish-frontend:
+  variables:
+    DOCKER_HUB_USER: angryfishproject
+    DOCKER_HUB_PASS: angryfish500
+    IMG_NAME: angryfishproject/frontend
+    IMG_TAG: latest
+    # for comms between containers
+    DOCKER_TLS_CERTDIR: "/certs"
+  image: docker:latest
+  services:
+    - docker:20.10.23-dind
+  before_script:
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+  script:
+    - docker build -t $IMG_NAME:$IMG_TAG ./$FRONTEND_DIR
+    - docker push $IMG_NAME:$IMG_TAG
