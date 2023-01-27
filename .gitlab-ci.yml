@@ -24,6 +24,3 @@ publish-frontend:
   script:
     - docker build -t $IMG_NAME:$IMG_TAG ./$FRONTEND_DIR
     - docker push $IMG_NAME:$IMG_TAG
-
-
-
