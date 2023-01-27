@@ -15,6 +15,6 @@ services:
     command: mongod --auth
 
   java-backend:
-    image: docker-spring-boot:1
+    image: java-backend
     ports:
       - "8080:8080"
