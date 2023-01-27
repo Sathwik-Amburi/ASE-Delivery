@@ -18,3 +18,8 @@ services:
     image: java-backend
     ports:
       - "8080:8080"
+
+  react-frontend:
+    image: react-frontend
+    ports:
+      - "3000:3000"
