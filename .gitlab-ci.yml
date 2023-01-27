@@ -1,0 +1,12 @@
+build-frontend:
+  variables:
+    FRONTEND_DIR: frontend
+  stage: build
+  image: node:alpine
+  script:
+    - cd $FRONTEND_DIR
+    - npm i
+
+publish-frontend:
+
+
