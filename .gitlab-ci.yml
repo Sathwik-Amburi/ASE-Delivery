@@ -73,7 +73,7 @@ variables:
 
 deploy:
   stage: deploy
-  image: ubuntu:22.04
+  image: docker:20.10.23
   script: 
     - docker-compose up
     # since this is not a persistent deployment using a cloud provider, we keep ngrok up for 1 minute to test the deployment
