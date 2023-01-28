@@ -1,11 +1,11 @@
+variables:
+  FRONTEND_DIR: frontend
+  BACKEND_DIR: JavaBackend
+
 stages:
   - build
   - publish
   - deploy
-  
-variables:
-  FRONTEND_DIR: frontend
-  BACKEND_DIR: JavaBackend
 
 build-frontend:
   stage: build
@@ -83,5 +83,5 @@ publish-backend:
     # Since this is not a persistent deployment using a cloud provider,
     # we deploy locally with ngrok on the GitLab Runner
     # With a cloud provider the docker-compose.yml would be copied onto it and ran there.
-    # The effect is the same.
+    # Besides persistence, the effect is the same.
     - docker-compose up

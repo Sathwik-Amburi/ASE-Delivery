@@ -3,8 +3,6 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
       - "/data/db"
       - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
@@ -13,6 +11,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=aseAdmin
       - MONGO_INITDB_ROOT_PASSWORD=ase
     command: mongod --auth
+    ports:
+      - "27017:27017"
 
   java-backend:
     image: angryfishproject/backend:latest
@@ -25,7 +25,7 @@ services:
       - "3000:3000"
 
   ngrok-frontend:
-    image: wernight/ngrok
+    image: wernight/ngrok:latest
     environment:
       NGROK_AUTH: 2KxZh1JbE3CNitykVxg4w0StpxU_2pG59a9SUsc7UUC53fWm6
       NGROK_PROTOCOL: http
@@ -35,7 +35,7 @@ services:
       - "4040:4040"
 
   ngrok-backend:
-    image: wernight/ngrok
+    image: wernight/ngrok:latest
     environment:
       NGROK_PROTOCOL: http
       NGROK_PORT: 8080
