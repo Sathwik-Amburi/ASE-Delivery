@@ -2,7 +2,6 @@ stages:
   - build
   - publish
   
-
 variables:
   FRONTEND_DIR: frontend
   BACKEND_DIR: JavaBackend
