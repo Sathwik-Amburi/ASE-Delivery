@@ -15,11 +15,30 @@ services:
     command: mongod --auth
 
   java-backend:
-    image: java-backend
+    image: angryfishproject/backend:latest
     ports:
       - "8080:8080"
 
   react-frontend:
-    image: react-frontend
+    image: angryfishproject/frontend:latest
     ports:
       - "3000:3000"
+
+  ngrok-frontend:
+    image: wernight/ngrok
+    environment:
+      NGROK_PROTOCOL: http
+      NGROK_PORT: 3000
+      NGROK_LOOK_DOMAIN: "react-frontend"
+    ports:
+      - "4040:4040"
+
+  ngrok-backend:
+    image: wernight/ngrok
+    environment:
+      NGROK_AUTH: 2KxZh1JbE3CNitykVxg4w0StpxU_2pG59a9SUsc7UUC53fWm6
+      NGROK_PROTOCOL: http
+      NGROK_PORT: 8080
+      NGROK_LOOK_DOMAIN: "java-backend"
+    ports:
+      - "4041:4040"
