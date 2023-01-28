@@ -23,7 +23,7 @@ publish-frontend:
   image: docker:20.10.23
   services:
     - name: docker:dind
-      alias: thedockerhost
+      alias: dockerhost
   before_script:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
   script:
