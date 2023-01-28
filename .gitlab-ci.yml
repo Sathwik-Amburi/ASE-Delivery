@@ -7,7 +7,7 @@ variables:
   FRONTEND_DIR: frontend
   BACKEND_DIR: JavaBackend
 
-.build-frontend:
+build-frontend:
   stage: build
   image: node:alpine
   script:
@@ -18,7 +18,7 @@ variables:
       - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
-.build-backend:
+build-backend:
   stage: build
   image: maven:3-amazoncorretto-19
   script:
@@ -32,7 +32,7 @@ variables:
       - $BACKEND_DIR/Dockerfile
       - $BACKEND_DIR/**/*
 
-.publish-frontend:
+publish-frontend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/frontend
@@ -52,7 +52,7 @@ variables:
       - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
-.publish-backend:
+publish-backend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/backend
@@ -79,7 +79,9 @@ deploy:
   image: docker:20.10.23
   services:
     - docker:20.10.23-dind
-  script: 
+  script:
+    # Since this is not a persistent deployment using a cloud provider,
+    # we deploy locally with ngrok on the GitLab Runner
+    # With a cloud provider the docker-compose.yml would be copied onto it and ran there.
+    # The effect is the same.
     - docker-compose up
-    # since this is not a persistent deployment using a cloud provider, we keep ngrok up for 1 minute to test the deployment
-    - sleep 60
