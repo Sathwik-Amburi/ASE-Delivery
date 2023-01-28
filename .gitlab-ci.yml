@@ -20,7 +20,8 @@ build-backend:
     - cd $BACKEND_DIR
     - mvn clean install -DskipTests
   artifacts:
-    - $BACKEND_DIR/target
+    paths:
+      - $BACKEND_DIR/target
 
 publish-frontend:
   stage: publish
