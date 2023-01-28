@@ -18,7 +18,8 @@ publish-frontend:
     IMG_NAME: angryfishproject/frontend
     IMG_TAG: latest
     # for comms between containers
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
     DOCKER_HOST: tcp://dockerhost:2375/
   image: docker:20.10.23
   services:
