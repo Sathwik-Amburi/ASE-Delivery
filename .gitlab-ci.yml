@@ -1,12 +1,13 @@
 stages:
   - build
   - publish
+  - deploy
   
 variables:
   FRONTEND_DIR: frontend
   BACKEND_DIR: JavaBackend
 
-build-frontend:
+.build-frontend:
   stage: build
   image: node:alpine
   script:
@@ -17,7 +18,7 @@ build-frontend:
       - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
-build-backend:
+.build-backend:
   stage: build
   image: maven:3-amazoncorretto-19
   script:
@@ -31,7 +32,7 @@ build-backend:
       - $BACKEND_DIR/Dockerfile
       - $BACKEND_DIR/**/*
 
-publish-frontend:
+.publish-frontend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/frontend
@@ -51,7 +52,7 @@ publish-frontend:
       - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
-publish-backend:
+.publish-backend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/backend
@@ -69,3 +70,11 @@ publish-backend:
   only:
     changes:
       - $BACKEND_DIR/target/**/*
+
+deploy:
+  stage: deploy
+  image: ubuntu:22.04
+  script: 
+    - docker-compose up
+    # since this is not a persistent deployment using a cloud provider, we keep ngrok up for 1 minute to test the deployment
+    - sleep 60
