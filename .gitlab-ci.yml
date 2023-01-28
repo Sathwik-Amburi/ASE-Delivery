@@ -6,12 +6,16 @@ variables:
   FRONTEND_DIR: frontend
   BACKEND_DIR: JavaBackend
 
-.build-frontend:
+build-frontend:
   stage: build
   image: node:alpine
   script:
     - cd $FRONTEND_DIR
     - npm i
+  only:
+    changes:
+      - $FRONTEND_DIR/Dockerfile
+      - $FRONTEND_DIR/**/*
 
 build-backend:
   stage: build
@@ -22,8 +26,12 @@ build-backend:
   artifacts:
     paths:
       - $BACKEND_DIR/target
+  only:
+    changes:
+      - $BACKEND_DIR/Dockerfile
+      - $BACKEND_DIR/**/*
 
-.publish-frontend:
+publish-frontend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/frontend
@@ -38,8 +46,12 @@ build-backend:
   script:
     - docker build -t $IMG_NAME:$IMG_TAG ./$FRONTEND_DIR
     - docker push $IMG_NAME:$IMG_TAG
+  only:
+    changes:
+      - $FRONTEND_DIR/Dockerfile
+      - $FRONTEND_DIR/**/*
 
-publich-backend:
+publish-backend:
   stage: publish
   variables:
     IMG_NAME: angryfishproject/backend
@@ -54,3 +66,6 @@ publich-backend:
   script:
     - docker build -t $IMG_NAME:$IMG_TAG ./$BACKEND_DIR
     - docker push $IMG_NAME:$IMG_TAG
+  only:
+    changes:
+      - $BACKEND_DIR/target/**/*
