@@ -1,6 +1,7 @@
 stages:
   - build
   - publish
+  
 
 variables:
   FRONTEND_DIR: frontend
