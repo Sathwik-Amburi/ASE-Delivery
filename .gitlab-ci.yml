@@ -1,0 +1,9 @@
+variables:
+  FRONTEND_DIR: frontend
+
+build-frontend:
+  stage: build
+  image: node:alpine
+  script:
+    - cd $FRONTEND_DIR
+    - npm i
