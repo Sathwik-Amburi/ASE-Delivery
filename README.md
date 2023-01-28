@@ -26,7 +26,7 @@ Get the ngrok URL of the frontend by navigating to the following address in your
 ```bash
 localhost:4040
 ```
-The ngrok URL for of the frontend should look similar to this.
+The ngrok URL of the frontend should look similar to this.
 ```bash
 https://b6a7-212-114-229-241.ngrok.io
 ```

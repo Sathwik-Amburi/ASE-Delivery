@@ -71,7 +71,7 @@ publish-backend:
     changes:
       - $BACKEND_DIR/target/**/*
 
-deploy:
+.deploy:
   stage: deploy
   variables:
     DOCKER_DRIVER: overlay2
