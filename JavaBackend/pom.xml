@@ -55,7 +55,7 @@
                 </configuration>
             </plugin>
         </plugins>
-		<finalName>docker-spring-boot</finalName>
+		<finalName>java-backend</finalName>
 	</build>
 
 </project>

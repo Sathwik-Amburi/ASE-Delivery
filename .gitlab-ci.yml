@@ -4,13 +4,23 @@ stages:
 
 variables:
   FRONTEND_DIR: frontend
+  BACKEND_DIR: JavaBackend
 
-.build-frontend:
+build-frontend:
   stage: build
   image: node:alpine
   script:
     - cd $FRONTEND_DIR
     - npm i
+
+build-backend:
+  stage: build
+  image: maven:3-amazoncorretto-19
+  script:
+    - cd $BACKEND_DIR
+    - mvn clean install -DskipTests
+  artifacts:
+    - $BACKEND_DIR/target
 
 publish-frontend:
   stage: publish

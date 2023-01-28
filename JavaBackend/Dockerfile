@@ -1,4 +1,4 @@
 FROM amazoncorretto:19
-ADD target/docker-spring-boot.jar docker-spring-boot.jar
+ADD target/java-backend.jar java-backend.jar
 #EXPOSE 8080:8080
-ENTRYPOINT ["java", "-jar", "docker-spring-boot.jar"]
+ENTRYPOINT ["java", "-jar", "java-backend.jar"]
