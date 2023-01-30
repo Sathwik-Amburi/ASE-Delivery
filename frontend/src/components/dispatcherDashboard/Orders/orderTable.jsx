@@ -49,7 +49,7 @@ export default function BasicTable() {
                 <Edit id={order.id} />{" "}
                 <Button
                   variant="contained"
-                  onClick={() => dispatch(deleteOrder(order.id))}
+                  onClick={() => dispatch(deleteOrder({ orderId: order.id }))}
                 >
                   Delete
                 </Button>

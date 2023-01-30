@@ -65,7 +65,9 @@ export default function FormDialog() {
                 name="dispatcherEmail"
               >
                 {dispatcherList.map((dispatcher) => (
-                  <MenuItem value={dispatcher.id}>{dispatcher.email}</MenuItem>
+                  <MenuItem key={dispatcher.id} value={dispatcher.id}>
+                    {dispatcher.email}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -78,7 +80,9 @@ export default function FormDialog() {
                 name="clientEmail"
               >
                 {clientList.map((client) => (
-                  <MenuItem value={client.id}>{client.email}</MenuItem>
+                  <MenuItem key={client.id} value={client.id}>
+                    {client.email}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -91,7 +95,9 @@ export default function FormDialog() {
                 name="delivererEmail"
               >
                 {delivererList.map((deliverer) => (
-                  <MenuItem value={deliverer.id}>{deliverer.email}</MenuItem>
+                  <MenuItem key={deliverer.id} value={deliverer.id}>
+                    {deliverer.email}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
