@@ -5,13 +5,16 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { addOrder } from "../../../features/order/orderSlice";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const { dispatcherList } = useSelector((state) => state.dispatchers);
+  const { clientList } = useSelector((state) => state.clients);
+  const { delivererList } = useSelector((state) => state.deliverers);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,9 +28,9 @@ export default function FormDialog() {
     // Get the form data
     const data = new FormData(event.currentTarget);
     const formData = {
-      dispatcherId: "63bd33a9e03f596350f8afb2",
-      delivererId: "63bd33a9e03f596350f8afb3",
-      clientId: "63bd2d47dea40908ea916896",
+      dispatcherId: data.get("dispatcherEmail"),
+      delivererId: data.get("delivererEmail"),
+      clientId: data.get("clientEmail"),
       street: data.get("street"),
     };
 
@@ -61,9 +64,9 @@ export default function FormDialog() {
                 variant="outlined"
                 name="dispatcherEmail"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {dispatcherList.map((dispatcher) => (
+                  <MenuItem value={dispatcher.id}>{dispatcher.email}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl fullWidth>
@@ -74,9 +77,9 @@ export default function FormDialog() {
                 variant="outlined"
                 name="clientEmail"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {clientList.map((client) => (
+                  <MenuItem value={client.id}>{client.email}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl fullWidth>
@@ -87,9 +90,9 @@ export default function FormDialog() {
                 variant="outlined"
                 name="delivererEmail"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {delivererList.map((deliverer) => (
+                  <MenuItem value={deliverer.id}>{deliverer.email}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
