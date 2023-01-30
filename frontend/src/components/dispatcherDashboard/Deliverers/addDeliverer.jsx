@@ -39,7 +39,7 @@ export default function FormDialog() {
         Add Deliverer
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Order</DialogTitle>
+        <DialogTitle>Add Deliverer</DialogTitle>
         <DialogContent>
           <Box
             component="form"

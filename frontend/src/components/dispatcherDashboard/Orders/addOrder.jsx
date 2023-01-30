@@ -45,7 +45,7 @@ export default function FormDialog() {
         Add Order
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Order</DialogTitle>
+        <DialogTitle>Add Order</DialogTitle>
         <DialogContent>
           <Box
             component="form"
