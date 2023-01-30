@@ -35,6 +35,21 @@ export const addDispatcher = createAsyncThunk(
   }
 );
 
+export const deleteDispatcher = createAsyncThunk(
+  "dispatchers/deleteDispatcher",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.delete(
+        `http://${process.env.REACT_APP_API_URL}/dispatcher`,
+        id
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
 const dispatcherSlice = createSlice({
   name: "dispatchers",
   initialState,
@@ -48,10 +63,6 @@ const dispatcherSlice = createSlice({
         dispatcher.email = email;
         dispatcher.pass = pass;
       }
-    },
-    addDispatcher: (state, action) => {
-      const formData = action.payload;
-      state.dispatcherList.push(formData);
     },
     deleteDispatcher: (state, action) => {
       const id = action.payload;
@@ -86,4 +97,4 @@ const dispatcherSlice = createSlice({
   },
 });
 export default dispatcherSlice.reducer;
-export const { editDispatcher, deleteDispatcher } = dispatcherSlice.actions;
+export const { editDispatcher } = dispatcherSlice.actions;
