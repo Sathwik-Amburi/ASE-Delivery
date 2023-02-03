@@ -1,9 +1,30 @@
-import QRCode from "qrcode";
+import QRCode from 'qrcode.react';
 import { useState } from "react";
 import { Button } from "@mui/material";
 
-function Qrcode() {
-  const [url, setUrl] = useState("");
+import Modal from 'react-modal';
+
+function MyComponent() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setModalIsOpen(true)}>GENERATE</button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        >
+        <h1>Here is the QR code:</h1>
+        <QRCode value="https://www.example.com" />
+        <button onClick={() => setModalIsOpen(false)}>Close</button>
+      </Modal>
+    </div>
+  );
+}
+export default MyComponent;
+
+/*function Qrcode() {
+  const [url, setUrl] = useState("love uuu");
   const [qr, setQr] = useState("");
   const GenerateQRCode = () => {
     QRCode.toDataURL(
@@ -25,13 +46,6 @@ function Qrcode() {
   };
   return (
     <div className="app">
-      <h1>QR Generator</h1>
-      <input
-        type="text"
-        value={url}
-        placeholder="Please input the order ID: "
-        onChange={(e) => setUrl(e.target.value)}
-      />
       <Button variant="contained" onClick={GenerateQRCode}>
         Generate
       </Button>
@@ -43,4 +57,4 @@ function Qrcode() {
     </div>
   );
 }
-export default Qrcode;
+export default Qrcode;*/
