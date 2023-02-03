@@ -9,14 +9,34 @@ function MyComponent() {
 
   return (
     <div>
-      <button onClick={() => setModalIsOpen(true)}>GENERATE</button>
+      <button 
+      style={{
+        backgroundColor: "#0000ff",
+        color: "white",
+        padding: "12px 20px",
+        border: "none",
+        borderRadius: "4px",
+        cursor: "pointer",
+        float: "left"
+      }}
+      onClick={() => setModalIsOpen(true)}>GENERATE</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         >
         <h1>Here is the QR code:</h1>
         <QRCode value="https://www.example.com" />
-        <button onClick={() => setModalIsOpen(false)}>Close</button>
+        <button 
+        style={{
+          backgroundColor: "#0000ff",
+          color: "white",
+          padding: "12px 20px",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          float: "right"
+        }}
+        onClick={() => setModalIsOpen(false)}>Close</button>
       </Modal>
     </div>
   );
