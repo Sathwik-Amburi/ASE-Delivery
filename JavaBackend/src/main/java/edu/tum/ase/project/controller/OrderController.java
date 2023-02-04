@@ -102,41 +102,6 @@ public class OrderController {
     }
 
     @CrossOrigin
-    @PostMapping("/get-undeliv-order-by-deliverer")
-    public Order getUndelivOrderByDeliverer(@RequestBody ObjectNode json){
-        /*
-        Returns undelivered order assigned to a specified deliverer
-
-        Usage:
-        curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/order/get-undeliv-order-by-deliverer
-        DELIVERER_ID is a user string representing Id of an object from the actor database
-
-        Returns a created order item, i.e. an object with fields
-            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
-
-        Example:
-        >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/order/get-undeliv-order-by-deliverer
-        << status code 200
-            {"id":"63bd3723e03f596350f8afb6",
-            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
-            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
-            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
-        */
-        String delivererId;
-        try {
-            delivererId = json.get("delivererId").asText();
-        } catch (NullPointerException ex) {
-            throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
-        }
-        Optional<Order> order = orderService.getUndelivOrderByDelivererId(delivererId);
-        if (order.isEmpty()){
-            throw new ResponseStatusException(NOT_ACCEPTABLE,
-                    String.format("Undelivered order of the deliverer '%s' was not found", delivererId));
-        }
-        return order.get();
-    }
-
-    @CrossOrigin
     @PostMapping("")
     public Order createOrder(@RequestBody ObjectNode json) {
         /*
@@ -151,7 +116,6 @@ public class OrderController {
         Returns a created order item, i.e. an object with fields
             (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
         Fails if the new order refers to the actors which don't exist in the actor table.
-        Fails if the new order's deliverer already has an undelivered order
 
         Example:
         >> curl -X POST -H "Content-Type: application/json" \

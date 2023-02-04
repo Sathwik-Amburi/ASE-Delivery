@@ -43,8 +43,6 @@ curl -X POST -H "Content-Type: application/json" \
   localhost:8080/order  # replace with your Ids!!!
 curl -X GET localhost:8080/order
 
-curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63c177d662cd023293ebaaa2"}' localhost:8080/order/get-undeliv-order-by-deliverer
-
 curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63c177e562cd023293ebaaa3", "newOrderStatus": "Delivered"}' localhost:8080/order
 
 curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1ca04e2b3f573a"}' localhost:8080/client
@@ -170,25 +168,6 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
          "street":"ErsteStraße","orderStatus":"Delivered"}]
       
 
-### Return undelivered order assigned to a specified deliverer
-
-    Usage:
-    curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/order/get-undeliv-order-by-deliverer
-    DELIVERER_ID is a user string representing Id of an object from the actor database
-    
-    Returns a created order item, i.e. an object with fields
-        (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
-    
-    Example:
-    >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/order/get-undeliv-order-by-deliverer
-    << status code 200
-        {"id":"63bd3723e03f596350f8afb6",
-        "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
-        "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
-        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"}, "street":"ErsteStraße", "orderStatus":"OnItsWay"}
-    
-
-
 ### Create an order
 
     Usage:
@@ -200,7 +179,6 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     Returns a created order item, i.e. an object with fields
         (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
     Fails if the new order refers to the actors which don't exist in the actor table.
-    Fails if the new order's deliverer already has an undelivered order
     
     Example:
     >> curl -X POST -H "Content-Type: application/json" \

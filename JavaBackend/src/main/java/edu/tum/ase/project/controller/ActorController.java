@@ -1,6 +1,7 @@
 package edu.tum.ase.project.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.MongoWriteException;
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.service.ActorService;
 import edu.tum.ase.project.utils.ActorType;
@@ -52,7 +53,7 @@ public class ActorController {
            [{"id":"638d2a011064dc1a387acc8e","email":"babushka@gmail.ru","actorType":"client"},
             {"id":"638f0fceb39edb53d3f173d5","email":"disp@gmail.ru","actorType":"dispatcher"}]
         */
-        if (Objects.equals(actorTypeStr, "all-actors")){
+        if (Objects.equals(actorTypeStr, "all-actors")) {
             return actorService.getAllActors();
         }
         return actorService.getAllActorsByType(str2actorType(actorTypeStr));
@@ -96,7 +97,11 @@ public class ActorController {
         } catch (NullPointerException ex) {
             throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
         }
-        return actorService.createActor(email, pass, str2actorType(actorTypeStr));
+        try {
+            return actorService.createActor(email, pass, str2actorType(actorTypeStr));
+        } catch (MongoWriteException ex) {
+            throw new ResponseStatusException(NOT_ACCEPTABLE, "An actor with such e-mail already exist");
+        }
     }
 
 
@@ -131,7 +136,7 @@ public class ActorController {
 
     @CrossOrigin
     @PostMapping("/delete")  // TODO change this if we have authentication
-    public void deleteActorById(@RequestBody ObjectNode json, @PathVariable String actorType){
+    public void deleteActorById(@RequestBody ObjectNode json, @PathVariable String actorType) {
         /*
         Deletes an actor by id
 

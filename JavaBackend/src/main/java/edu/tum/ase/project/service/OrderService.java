@@ -23,11 +23,6 @@ public class OrderService {
 
     public Order createOrder(String dispatcherId, String delivererId, String clientId, String street)
             throws ObjectDoesNotExist {
-        Optional<Order> order = this.getUndelivOrderByDelivererId(delivererId);
-        if (order.isPresent()) {
-            throw new ObjectDoesNotExist(String.format("A deliverer '%s' already has an undelivered order '%s'",
-                    delivererId, order.get().getId()));
-        }
 
         Optional<Actor> dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.dispatcher);
         if (dispatcher.isEmpty()) {
@@ -58,10 +53,6 @@ public class OrderService {
             case deliverer -> orderRepository.findAllByDelivererId(actorId);
             case dispatcher -> orderRepository.findAllByDispatcherId(actorId);
         };
-    }
-
-    public Optional<Order> getUndelivOrderByDelivererId(String delivererId) {
-        return orderRepository.findByDelivererIdAndOrderStatus(delivererId, OrderStatus.OnItsWay);
     }
 
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws ObjectDoesNotExist {
