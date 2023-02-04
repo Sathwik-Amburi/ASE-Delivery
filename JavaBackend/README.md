@@ -39,7 +39,7 @@ curl -X POST -H "Content-Type: application/json" \
 curl -X GET localhost:8080/all-actors
 
 curl -X POST -H "Content-Type: application/json" \
-  -d '{"dispatcherId": "63c1776762cd023293ebaa9f", "delivererId": "63c177d662cd023293ebaaa2", "clientId": "63c1778662cd023293ebaaa1", "boxNumber": 13,"street": "ErsteStraße"}' \
+  -d '{"dispatcherId": "63c1776762cd023293ebaa9f", "delivererId": "63c177d662cd023293ebaaa2", "clientId": "63c1778662cd023293ebaaa1", "boxNumber": 13, "street": "ErsteStraße"}' \
   localhost:8080/order  # replace with your Ids!!!
 curl -X GET localhost:8080/order
 
@@ -172,7 +172,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 
     Usage:
     curl -X POST -H "Content-Type: application/json" \
-        -d '{"dispatcherId": <DISPATCHER_ID>, "delivererId": <DELIVERER_ID>, "clientId": <CLIENT_ID>, "street": "ErsteStraße"}' \
+        -d '{"dispatcherId": <DISPATCHER_ID>, "delivererId": <DELIVERER_ID>, "clientId": <CLIENT_ID>, "boxNumber": <BOX_NUMBER>, "street": "ErsteStraße"}' \
         localhost:8080/order
     DISPATCHER_ID, DELIVERER_ID and CLIENT_ID are user strings representing Ids of objects from the actor database
     
@@ -182,7 +182,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     
     Example:
     >> curl -X POST -H "Content-Type: application/json" \
-        -d '{"dispatcherId": "63bd33a9e03f596350f8afb2", "delivererId": "63bd33a9e03f596350f8afb3", "clientId": "63bd2d47dea40908ea916896", "street": "ErsteStraße"}' \
+        -d '{"dispatcherId": "63bd33a9e03f596350f8afb2", "delivererId": "63bd33a9e03f596350f8afb3", "clientId": "63bd2d47dea40908ea916896", "boxNumber": 13, "street": "ErsteStraße"}' \
         localhost:8080/order
     << status code 200
         {"id":"63bd3723e03f596350f8afb6",
