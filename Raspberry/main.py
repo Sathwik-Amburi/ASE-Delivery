@@ -52,10 +52,7 @@ def main_loop():
             time.sleep(5)
 
         controller.switch_led(LEDState.OFF)
-        break
 
-
-    while True:
         RFID_result, order_id = check_RFID_name(
             controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
 
@@ -72,7 +69,6 @@ def main_loop():
             time.sleep(5)
 
         controller.switch_led(LEDState.OFF)
-        break
 
 
 if __name__ == '__main__':
