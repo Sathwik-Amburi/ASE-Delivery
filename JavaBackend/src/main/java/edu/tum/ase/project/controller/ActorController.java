@@ -5,7 +5,7 @@ import com.mongodb.MongoWriteException;
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.service.ActorService;
 import edu.tum.ase.project.utils.ActorType;
-import edu.tum.ase.project.utils.ObjectDoesNotExist;
+import edu.tum.ase.project.utils.WrongObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -165,7 +165,7 @@ public class ActorController {
         try {
             actorService.deleteActor(actorId);
             return;
-        } catch (ObjectDoesNotExist e) {
+        } catch (WrongObject e) {
             throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }

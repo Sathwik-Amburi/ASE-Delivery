@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.tum.ase.project.model.Order;
 import edu.tum.ase.project.service.OrderService;
 import edu.tum.ase.project.utils.ActorType;
-import edu.tum.ase.project.utils.ObjectDoesNotExist;
+import edu.tum.ase.project.utils.WrongObject;
 import edu.tum.ase.project.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -135,18 +134,20 @@ public class OrderController {
         String dispatcherId;
         String delivererId;
         String clientId;
+        int boxNumber;
         String street;
         try {
             dispatcherId = json.get("dispatcherId").asText();
             delivererId = json.get("delivererId").asText();
             clientId = json.get("clientId").asText();
+            boxNumber = Integer.parseInt(json.get("boxNumber").asText());
             street = json.get("street").asText();
         } catch (NullPointerException ex) {
             throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
         }
         try {
-            return orderService.createOrder(dispatcherId, delivererId, clientId, street);
-        } catch (ObjectDoesNotExist e) {
+            return orderService.createOrder(dispatcherId, delivererId, clientId, boxNumber, street);
+        } catch (WrongObject e) {
             throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
@@ -183,7 +184,7 @@ public class OrderController {
         }
         try {
             return orderService.updateOrderStatus(orderId, str2orderStatus(orderStatusStr));
-        } catch (ObjectDoesNotExist e) {
+        } catch (WrongObject e) {
             throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }
@@ -217,7 +218,7 @@ public class OrderController {
         try {
             orderService.deleteOrder(orderId);
             return;
-        } catch (ObjectDoesNotExist e) {
+        } catch (WrongObject e) {
             throw new ResponseStatusException(NOT_ACCEPTABLE, e.getMessage());
         }
     }

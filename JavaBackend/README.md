@@ -39,7 +39,7 @@ curl -X POST -H "Content-Type: application/json" \
 curl -X GET localhost:8080/all-actors
 
 curl -X POST -H "Content-Type: application/json" \
-  -d '{"dispatcherId": "63c1776762cd023293ebaa9f", "delivererId": "63c177d662cd023293ebaaa2", "clientId": "63c1778662cd023293ebaaa1", "street": "ErsteStraße"}' \
+  -d '{"dispatcherId": "63c1776762cd023293ebaa9f", "delivererId": "63c177d662cd023293ebaaa2", "clientId": "63c1778662cd023293ebaaa1", "boxNumber": 13,"street": "ErsteStraße"}' \
   localhost:8080/order  # replace with your Ids!!!
 curl -X GET localhost:8080/order
 

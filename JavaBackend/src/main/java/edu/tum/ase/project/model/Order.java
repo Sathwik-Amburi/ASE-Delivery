@@ -19,14 +19,17 @@ public class Order {
     @DBRef
     private Actor client;
 
+    private Integer boxNumber;
+
     private String street;
 
     private OrderStatus orderStatus;
 
-    public Order(Actor dispatcher, Actor deliverer, Actor client, String street) {
+    public Order(Actor dispatcher, Actor deliverer, Actor client, Integer boxNumber, String street) {
         this.dispatcher = dispatcher;
         this.deliverer = deliverer;
         this.client = client;
+        this.boxNumber = boxNumber;
         this.street = street;
         this.orderStatus = OrderStatus.OnItsWay;
     }
@@ -45,6 +48,10 @@ public class Order {
 
     public Actor getClient() {
         return client;
+    }
+
+    public Integer getBoxNumber() {
+        return boxNumber;
     }
 
     public String getStreet() {
