@@ -188,7 +188,8 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
         {"id":"63bd3723e03f596350f8afb6",
         "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
         "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
-        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"street":"ErsteStraße","orderStatus":"OnItsWay"}
+        "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},
+        "boxNumber":13, "street":"ErsteStraße","orderStatus":"OnItsWay"}
     >> curl -X POST -H "Content-Type: application/json" \
         -d '{"dispatcherId": "1", "delivererId": "2", "clientId": "3", "street": "ErsteStraße"}' \
         localhost:8080/order  # not existing ids

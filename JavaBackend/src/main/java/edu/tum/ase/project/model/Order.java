@@ -31,7 +31,7 @@ public class Order {
         this.client = client;
         this.boxNumber = boxNumber;
         this.street = street;
-        this.orderStatus = OrderStatus.OnItsWay;
+        this.orderStatus = OrderStatus.OrderCreated;
     }
 
     public String getId() {
