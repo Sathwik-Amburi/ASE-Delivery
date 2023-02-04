@@ -56,7 +56,7 @@ class ServerCommunicator:
         url = os.path.join(self.server_address, 'order')
         params = {'orderId': order_id, 'newOrderStatus': status_str}
         response = self.session.put(url, headers=self.header, json=params)
-        print(f'INFO for set_order_delivered\nURL: "{url}", DATA: {params}\n'
+        print(f'INFO for change_order_status\nURL: "{url}", DATA: {params}\n'
               f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code != 200:
             print(

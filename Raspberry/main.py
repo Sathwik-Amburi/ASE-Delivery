@@ -46,6 +46,7 @@ def main_loop():
             if not handle_opened(order_id=order_id, time_opened=time_opened, status_str=const.STATUS_ONITSWAY,
                                  controller=controller, communicator=communicator):
                 controller.blink_led(LEDState.RED, 5)
+            break
 
         else:
             controller.switch_led(LEDState.RED)
@@ -53,6 +54,10 @@ def main_loop():
 
         controller.switch_led(LEDState.OFF)
 
+
+        #  ------------
+
+    while True:
         RFID_result, order_id = check_RFID_name(
             controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
 
@@ -63,6 +68,7 @@ def main_loop():
             if not handle_opened(order_id=order_id, time_opened=time_opened, status_str=const.STATUS_DELIVERED,
                                  controller=controller, communicator=communicator):
                 controller.blink_led(LEDState.RED, 5)
+                break;
 
         else:
             controller.switch_led(LEDState.RED)
