@@ -20,7 +20,7 @@ export default function BasicTable() {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Order ID</TableCell>
+            <TableCell>Box ID</TableCell>
             <TableCell align="right">Dispatcher Email</TableCell>
             <TableCell align="right">Deliverer Email</TableCell>
             <TableCell align="right">Customer Email</TableCell>
