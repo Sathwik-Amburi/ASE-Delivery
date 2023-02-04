@@ -1,7 +1,5 @@
-db.createUser(
-    {
-        user: "aseAdmin",
-        pwd: "ase",
-        roles: ["root"]
-    }
-)
+db.createUser({
+  user: "aseAdmin",
+  pwd: "ase",
+  roles: ["readWrite"],
+});
