@@ -35,6 +35,21 @@ export const addDeliverer = createAsyncThunk(
   }
 );
 
+export const deleteDeliverer = createAsyncThunk(
+  "deliverers/deleteDeliverer",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/deliverer/delete`,
+        id
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
+
 const delivererSlice = createSlice({
   name: "deliverers",
   initialState,
@@ -48,12 +63,6 @@ const delivererSlice = createSlice({
         deliverer.email = email;
         deliverer.pass = pass;
       }
-    },
-    deleteDeliverer: (state, action) => {
-      const id = action.payload;
-      state.delivererList = state.delivererList.filter(
-        (deliverer) => deliverer.id !== id
-      );
     },
   },
   extraReducers: (builder) => {
@@ -78,9 +87,22 @@ const delivererSlice = createSlice({
       })
       .addCase(addDeliverer.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(deleteDeliverer.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteDeliverer.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.delivererList = state.delivererList.filter(
+          (deliverer) => deliverer._id !== action.payload
+        );
+      })
+
+      .addCase(deleteDeliverer.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
 
 export default delivererSlice.reducer;
-export const { editDeliverer, deleteDeliverer } = delivererSlice.actions;
+export const { editDeliverer } = delivererSlice.actions;

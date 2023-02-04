@@ -23,13 +23,13 @@ export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    localStorage.setItem("email", data.get("email"));
     console.log({
       email: data.get("email"),
       password: data.get("password"),
       role: userRole,
     });
     const formData = {
-      id: "123",
       email: data.get("email"),
       role: userRole,
     };
@@ -131,8 +131,11 @@ export default function SignInSide() {
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account?"}
                 </Link>
+                <Button color="inherit" href="/register">
+                  sign up
+                </Button>
               </Grid>
             </Grid>
             <Copyright sx={{ mt: 5 }} />

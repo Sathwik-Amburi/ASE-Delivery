@@ -9,7 +9,10 @@ import Paper from "@mui/material/Paper";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import Edit from "./editDeliverer";
-import { deleteDeliverer } from "../../../features/deliverer/delivererSlice";
+import {
+  deleteDeliverer,
+  getDeliverers,
+} from "../../../features/deliverer/delivererSlice";
 
 export default function BasicTable() {
   const { delivererList } = useSelector((state) => state.deliverers);
@@ -42,7 +45,9 @@ export default function BasicTable() {
                 <Edit id={deliverer.id} />{" "}
                 <Button
                   variant="contained"
-                  onClick={() => dispatch(deleteDeliverer(deliverer.id))}
+                  onClick={() => {
+                    dispatch(deleteDeliverer({ actorId: deliverer.id }));
+                  }}
                 >
                   Delete
                 </Button>

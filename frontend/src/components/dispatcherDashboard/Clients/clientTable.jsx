@@ -42,7 +42,7 @@ export default function BasicTable() {
                 <Edit id={client.id} />{" "}
                 <Button
                   variant="contained"
-                  onClick={() => dispatch(deleteClient(client.id))}
+                  onClick={() => dispatch(deleteClient({ actorId: client.id }))}
                 >
                   Delete
                 </Button>

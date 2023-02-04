@@ -39,8 +39,8 @@ export const deleteDispatcher = createAsyncThunk(
   "dispatchers/deleteDispatcher",
   async (id, thunkAPI) => {
     try {
-      const response = await axios.delete(
-        `http://${process.env.REACT_APP_API_URL}/dispatcher`,
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/dispatcher/delete`,
         id
       );
       return response.data;
@@ -92,6 +92,15 @@ const dispatcherSlice = createSlice({
         state.dispatcherList.push(action.payload);
       })
       .addCase(addDispatcher.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteDispatcher.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteDispatcher.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteDispatcher.rejected, (state) => {
         state.isLoading = false;
       });
   },

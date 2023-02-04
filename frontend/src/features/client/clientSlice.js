@@ -30,22 +30,26 @@ export const addClient = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      alert("user already exists or something went wrong!\n" + error);
       return thunkAPI.rejectWithValue("something went wrong");
     }
   }
 );
 
-// export const deleteClient = createAsyncThunk(
-//   "clients/deleteClient",
-//   async (id, thunkAPI) => {
-//     try {
-//       const response = await axios.delete(`http://localhost:8080/client/${id}`);
-//       return id;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue("something went wrong");
-//     }
-//   }
-// );
+export const deleteClient = createAsyncThunk(
+  "clients/deleteClient",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/client/delete`,
+        id
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
+  }
+);
 
 const clientSlice = createSlice({
   name: "clients",
@@ -58,10 +62,6 @@ const clientSlice = createSlice({
         client.email = email;
         client.pass = pass;
       }
-    },
-    deleteClient: (state, action) => {
-      const id = action.payload;
-      state.clientList = state.clientList.filter((client) => client.id !== id);
     },
   },
   extraReducers: (builder) => {
@@ -86,19 +86,19 @@ const clientSlice = createSlice({
       })
       .addCase(addClient.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(deleteClient.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        state.isLoading = false;
+        getClients();
+      })
+      .addCase(deleteClient.rejected, (state) => {
+        state.isLoading = false;
       });
-    // .addCase(deleteClient.pending, (state) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase(deleteClient.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   state.clientList.push(action.payload);
-    // })
-    // .addCase(deleteClient.rejected, (state) => {
-    //   state.isLoading = false;
-    // });
   },
 });
 
 export default clientSlice.reducer;
-export const { editClient, deleteClient } = clientSlice.actions;
+export const { editClient } = clientSlice.actions;
