@@ -225,7 +225,7 @@ public class OrderController {
     }
 
     @CrossOrigin
-    @DeleteMapping("")
+    @PostMapping("/delete")  // TODO change this if we have authentication
     public void deleteOrderById(@RequestBody ObjectNode json){
         /*
         Deletes an order by id

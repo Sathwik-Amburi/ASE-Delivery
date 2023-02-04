@@ -16,7 +16,11 @@ Execute this in the mongoshell to inspect the tables. Only if you are interested
 show dbs
 use test
 show collections
+```
 
+```bash
+docker-compose up mongodb java-backend
+docker exec -it fish_mongodb_1 bash  # connect to the container
 ```
 
 # How to test API (small example)
@@ -249,3 +253,15 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     >> curl -X DELETE -H "Content-Type: application/json" -d '{"orderId": "63bd3723e03f596350f8afb6"}' localhost:8080/order  # try to delete a key missing from the table
     << status code 406
        {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/order"}
+
+
+### builds /target/java-backend.jar
+```bash
+mvn package
+```
+
+### build docker container
+```bash
+docker build -t java-backend .
+```
+

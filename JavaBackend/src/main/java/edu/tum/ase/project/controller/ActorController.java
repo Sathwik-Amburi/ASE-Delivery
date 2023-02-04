@@ -130,7 +130,7 @@ public class ActorController {
     }
 
     @CrossOrigin
-    @DeleteMapping("")
+    @PostMapping("/delete")  // TODO change this if we have authentication
     public void deleteActorById(@RequestBody ObjectNode json, @PathVariable String actorType){
         /*
         Deletes an actor by id
