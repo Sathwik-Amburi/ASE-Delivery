@@ -13,26 +13,18 @@ class ActorType(Enum):
 
 
 class ServerCommunicator:
-    def __init__(self, server_address: str, rasp_name: str, rasp_pass: str):
+    def __init__(self, server_address: str, box_number: str):
         self.server_address = server_address
         self.session = requests.Session()
-        self.data_params_id = {'delivererId': rasp_name}
+        self.data_params_id = {'boxNumber': box_number}
         self.header = {'Content-type': 'application/json'}
-
-        # for authentication
-        # self.session.auth = (rasp_name, rasp_pass)
-        # response = self.session.get(url, verify=False)
-        # assert response.status_code == 200, (
-        #     f'Server addr, rasp_name or rasp_pass is incorrect. The GET request to "{url}" with '
-        #     f'user "{rasp_name}" and pass "{rasp_pass}" returned {response.status_code} status code'
-        # )
 
     def check_person_name(self, actor_id: str, a_type: ActorType, debug=False) -> (bool, str):
         if debug:
             user_set = {"lol", "kek", "Danya                                           "}
             return actor_id in user_set
 
-        url = os.path.join(self.server_address, 'order/get-undeliv-order-by-deliverer')
+        url = os.path.join(self.server_address, 'order/get-undeliv-order-by-box')
         print(f"url: {url}, json: {self.data_params_id}")
         response = self.session.post(url, json=self.data_params_id)
         print(f'INFO for check_person_name\nURL: "{url}", DATA: {self.data_params_id}\n'
@@ -76,7 +68,7 @@ class ServerCommunicator:
 if __name__ == '__main__':
     # test ServerCommunicator
     serverCommunicator = ServerCommunicator(
-        server_address="http://127.0.0.1:8080", rasp_name=const.RASP_NAME, rasp_pass=const.RASP_PASS)
+        server_address="http://127.0.0.1:8080", box_number=const.RASP_NAME, rasp_pass=const.RASP_PASS)
 
     kek1 = serverCommunicator.check_person_name(actor_id="63c1778662cd023293ebaaa1", a_type=ActorType.CLIENT)
     print(kek1)

@@ -32,8 +32,7 @@ def main_loop():
     controller = HardwareController()
     communicator = ServerCommunicator(
         server_address=const.SERVER_ADDRESS,
-        rasp_name=const.RASP_NAME,
-        rasp_pass=const.RASP_PASS)
+        box_number=const.RASP_NAME)
 
     with open("config/conf.json") as f:
         data = json.load(f)

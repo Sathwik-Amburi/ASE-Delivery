@@ -1,6 +1,5 @@
 SERVER_ADDRESS = 'http://172.20.10.10:8080/'
-RASP_NAME = '638f0fceb39edb53d3f173d6'  # deliverer Id
-RASP_PASS = '123'
+BOX_NUMBER = 13
 
 # HW = HardWare
 HW_LEG_RED = 20
