@@ -32,13 +32,7 @@ def main_loop():
     controller = HardwareController()
     communicator = ServerCommunicator(
         server_address=const.SERVER_ADDRESS,
-        box_number=const.RASP_NAME)
-
-    with open("config/conf.json") as f:
-        data = json.load(f)
-        id = data["id"]
-        name = data["name"]
-        address = data["address"]
+        box_number=const.BOX_NUMBER)
 
     print('Main loop is running')
     while True:
