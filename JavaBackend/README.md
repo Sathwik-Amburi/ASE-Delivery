@@ -257,6 +257,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 
 ### builds /target/java-backend.jar
 ```bash
+export $M2_HOME='/opt/apache-maven-3.6.3'
 JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
 ```
 
