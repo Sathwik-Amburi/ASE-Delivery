@@ -23,7 +23,7 @@ public class OrderService {
 
     public Order createOrder(String dispatcherId, String delivererId, String clientId, int boxNumber, String street)
             throws WrongObject {
-        Optional<Order> order = orderRepository.findUndeliveredByBoxNumber(boxNumber);
+        Optional<Order> order = orderRepository.getUndeliveredByBoxNumber(boxNumber);
         if (order.isPresent()) {
             throw new WrongObject(String.format("The box %d in already taken", boxNumber));
         }
@@ -59,8 +59,8 @@ public class OrderService {
         };
     }
 
-    public Optional<Order> getUndelivOrderByDelivererId(String delivererId) {
-        return orderRepository.findByDelivererIdAndOrderStatus(delivererId, OrderStatus.OnItsWay);
+    public Optional<Order> getUndelivOrderByBoxNumber(int boxNumber) {
+        return orderRepository.getUndeliveredByBoxNumber(boxNumber);
     }
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws WrongObject {
         Optional<Order> order = orderRepository.findById(orderId);

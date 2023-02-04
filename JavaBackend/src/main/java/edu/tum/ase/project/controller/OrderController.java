@@ -102,7 +102,7 @@ public class OrderController {
     }
 
     @CrossOrigin
-    @PostMapping("/get-undeliv-order-by-deliverer")
+    @PostMapping("/get-undeliv-order-by-box")
     public Order getUndelivOrderByDeliverer(@RequestBody ObjectNode json) {
         /*
         Returns undelivered order assigned to a specified deliverer
@@ -122,16 +122,16 @@ public class OrderController {
             "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
             "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
         */
-        String delivererId;
+        int boxNumber;
         try {
-            delivererId = json.get("delivererId").asText();
+            boxNumber = Integer.parseInt(json.get("boxNumber").asText());
         } catch (NullPointerException ex) {
             throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
         }
-        Optional<Order> order = orderService.getUndelivOrderByDelivererId(delivererId);
+        Optional<Order> order = orderService.getUndelivOrderByBoxNumber(boxNumber);
         if (order.isEmpty()) {
             throw new ResponseStatusException(NOT_ACCEPTABLE,
-                    String.format("Undelivered order of the deliverer '%s' was not found", delivererId));
+                    String.format("Undelivered order of the box '%d' was not found", boxNumber));
         }
         return order.get();
     }
