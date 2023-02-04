@@ -69,7 +69,7 @@ class ServerCommunicator:
 if __name__ == '__main__':
     # test ServerCommunicator
     serverCommunicator = ServerCommunicator(
-        server_address="http://127.0.0.1:8080", box_number=const.RASP_NAME, rasp_pass=const.RASP_PASS)
+        server_address="http://127.0.0.1:8080", box_number=const.BOX_NUMBER)
 
     kek1 = serverCommunicator.check_person_name(actor_id="63c1778662cd023293ebaaa1", a_type=ActorType.CLIENT)
     print(kek1)
