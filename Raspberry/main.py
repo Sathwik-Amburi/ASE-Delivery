@@ -20,7 +20,7 @@ def check_RFID_name(controller: HardwareController,
 def handle_opened(order_id, time_opened, controller, communicator) -> bool:
     while datetime.now() - time_opened <= timedelta(seconds=10):  # fewer than 10s have passed since opening the box
         if controller.check_box_state() == BoxState.CLOSED:
-            communicator.set_order_delivered(order_id=order_id)
+            communicator.change_order_status(order_id=order_id)
             return True
 
         time.sleep(0.25)

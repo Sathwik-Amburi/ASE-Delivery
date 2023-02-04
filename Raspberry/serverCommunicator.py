@@ -51,9 +51,10 @@ class ServerCommunicator:
 
         return result, order_id
 
-    def set_order_delivered(self, order_id: str) -> bool:
+    def change_order_status(self, order_id: str, status_str: str) -> bool:
+        # status_str is STATUS_DELIVERED or STATUS_ONITSWAY
         url = os.path.join(self.server_address, 'order')
-        params = {'orderId': order_id, 'newOrderStatus': 'Delivered'}
+        params = {'orderId': order_id, 'newOrderStatus': status_str}
         response = self.session.put(url, headers=self.header, json=params)
         print(f'INFO for set_order_delivered\nURL: "{url}", DATA: {params}\n'
               f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
@@ -74,5 +75,5 @@ if __name__ == '__main__':
     print(kek1)
 
     order_id = kek1[1]
-    kek2 = serverCommunicator.set_order_delivered(order_id=order_id)
+    kek2 = serverCommunicator.change_order_status(order_id=order_id)
     print(kek2)
