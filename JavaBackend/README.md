@@ -18,6 +18,7 @@ use test
 show collections
 ```
 
+## How to run inside a docker
 ```bash
 docker-compose up mongodb java-backend
 docker exec -it fish_mongodb_1 bash  # connect to the container
@@ -255,9 +256,9 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
        {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/order"}
 
 
-### builds /target/java-backend.jar
+### builds /target/java-backend.jar (from the `JavaBackend/` folder)
 ```bash
-export $M2_HOME='/opt/apache-maven-3.6.3'
+export PATH="/opt/apache-maven-3.6.3/bin:$PATH"
 JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
 ```
 

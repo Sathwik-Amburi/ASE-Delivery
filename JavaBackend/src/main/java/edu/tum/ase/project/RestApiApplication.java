@@ -13,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = { RestApiApplication.class })
@@ -22,7 +23,7 @@ public class RestApiApplication implements CommandLineRunner {
 	MongoClient mongoClient;
 
 	@Autowired
-	ActorService clientService;
+	ActorService actorService;
 
 	private static final Logger log = LoggerFactory.getLogger(RestApiApplication.class);
 
@@ -33,10 +34,11 @@ public class RestApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
-		List<Actor> clientList = clientService.getAllActorsByType(ActorType.client);
-		for (Actor client : clientList){
-			log.info(client.toString());
+
+		// Add a default user if it does not exist
+		Optional<Actor> actor = actorService.findByActorTypeAndEmail("sathwik@gmail.ru", ActorType.dispatcher);
+		if (actor.isEmpty()){
+			actorService.createActor("sathwik@gmail.ru", "sathwik", ActorType.dispatcher);
 		}
-		log.info("Number of clients in Database is " + clientList.size());
 	}
 }
