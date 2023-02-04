@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -69,7 +70,7 @@ public class OrderController {
     @CrossOrigin
     @PostMapping("/{actorType}")
     public List<Order> getAllOrdersByActor(@PathVariable(value = "actorType") final String actorTypeStr,
-                                    @RequestBody ObjectNode json) {
+                                           @RequestBody ObjectNode json) {
         /*
         Returns all the orders of a specified actor
 
@@ -98,6 +99,41 @@ public class OrderController {
             throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
         }
         return orderService.getAllOrdersByActor(str2actorType(actorTypeStr), actorId);
+    }
+
+    @CrossOrigin
+    @PostMapping("/get-undeliv-order-by-deliverer")
+    public Order getUndelivOrderByDeliverer(@RequestBody ObjectNode json) {
+        /*
+        Returns undelivered order assigned to a specified deliverer
+
+        Usage:
+        curl -X POST -H "Content-Type: application/json" -d '{"delivererId": <DELIVERER_ID>}' localhost:8080/order/get-undeliv-order-by-deliverer
+        DELIVERER_ID is a user string representing Id of an object from the actor database
+
+        Returns a created order item, i.e. an object with fields
+            (id, dispatcher: (id, email, actorType), deliverer: (id, email, actorType), client: (id, email, actorType), street, orderStatus)
+
+        Example:
+        >> curl -X POST -H "Content-Type: application/json" -d '{"delivererId": "63bd33a9e03f596350f8afb3"}' localhost:8080/order/get-undeliv-order-by-deliverer
+        << status code 200
+            {"id":"63bd3723e03f596350f8afb6",
+            "dispatcher":{"id":"63bd33a9e03f596350f8afb2","email":"disp@gmail.ru","actorType":"dispatcher"},
+            "deliverer":{"id":"63bd33a9e03f596350f8afb3","email":"del@gmail.ru","actorType":"dispatcher"},
+            "client":{"id":"63bd2d47dea40908ea916896","email":"babushka@gmail.ru","actorType":"client"},"orderStatus":"OnItsWay"}
+        */
+        String delivererId;
+        try {
+            delivererId = json.get("delivererId").asText();
+        } catch (NullPointerException ex) {
+            throw new ResponseStatusException(BAD_REQUEST, "Illegal request argument");
+        }
+        Optional<Order> order = orderService.getUndelivOrderByDelivererId(delivererId);
+        if (order.isEmpty()) {
+            throw new ResponseStatusException(NOT_ACCEPTABLE,
+                    String.format("Undelivered order of the deliverer '%s' was not found", delivererId));
+        }
+        return order.get();
     }
 
     @CrossOrigin
@@ -191,7 +227,7 @@ public class OrderController {
 
     @CrossOrigin
     @PostMapping("/delete")  // TODO change this if we have authentication
-    public void deleteOrderById(@RequestBody ObjectNode json){
+    public void deleteOrderById(@RequestBody ObjectNode json) {
         /*
         Deletes an order by id
 

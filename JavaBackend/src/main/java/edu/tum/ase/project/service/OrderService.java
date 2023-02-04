@@ -59,6 +59,9 @@ public class OrderService {
         };
     }
 
+    public Optional<Order> getUndelivOrderByDelivererId(String delivererId) {
+        return orderRepository.findByDelivererIdAndOrderStatus(delivererId, OrderStatus.OnItsWay);
+    }
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws WrongObject {
         Optional<Order> order = orderRepository.findById(orderId);
         if (order.isEmpty()) {
