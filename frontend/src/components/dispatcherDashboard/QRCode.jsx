@@ -1,11 +1,12 @@
 import QRCode from 'qrcode.react';
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button , Box} from "@mui/material";
 
 import Modal from 'react-modal';
 
 function MyComponent() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const qrSize = 270;
 
   return (
     <div>
@@ -23,9 +24,27 @@ function MyComponent() {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
+        style={{
+          content: {
+            width: `${qrSize}px`,
+            height: `${qrSize}px`,
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+            padding: "20px"
+          }
+        }}
         >
         <h1>Here is the QR code:</h1>
-        <QRCode value="https://www.example.com" />
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: "10px"}}>
+          <QRCode value="https://www.example.com" />
+        </div>
+
+        
         <button 
         style={{
           backgroundColor: "#0000ff",
@@ -34,7 +53,8 @@ function MyComponent() {
           border: "none",
           borderRadius: "4px",
           cursor: "pointer",
-          float: "right"
+          float: "center",
+          marginTop: "15px"
         }}
         onClick={() => setModalIsOpen(false)}>Close</button>
       </Modal>
