@@ -257,11 +257,14 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
 
 ### builds /target/java-backend.jar
 ```bash
-mvn package
+JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
 ```
 
 ### build docker container
 ```bash
-docker build -t java-backend .
+docker login -u angryfishproject -p angryfish500
+
+docker build -t angryfishproject/backend .
+docker push angryfishproject/backend 
 ```
 
