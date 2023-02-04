@@ -25,6 +25,9 @@ public class RestApiApplication implements CommandLineRunner {
 	@Autowired
 	ActorService actorService;
 
+	private static final String defaultDispatcherPass = "sathwik";
+	private static final String defaultDispatcherEmail = "sathwik@gmail.ru";
+
 	private static final Logger log = LoggerFactory.getLogger(RestApiApplication.class);
 
 	public static void main(String[] args) {
@@ -36,9 +39,9 @@ public class RestApiApplication implements CommandLineRunner {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
 
 		// Add a default user if it does not exist
-		Optional<Actor> actor = actorService.findByActorTypeAndEmail("sathwik@gmail.ru", ActorType.dispatcher);
+		Optional<Actor> actor = actorService.findByActorTypeAndEmail(defaultDispatcherEmail, ActorType.dispatcher);
 		if (actor.isEmpty()){
-			actorService.createActor("sathwik@gmail.ru", "sathwik", ActorType.dispatcher);
+			actorService.createActor(defaultDispatcherEmail, defaultDispatcherPass, ActorType.dispatcher);
 		}
 	}
 }
