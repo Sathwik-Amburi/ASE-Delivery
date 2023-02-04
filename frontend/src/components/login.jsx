@@ -15,6 +15,7 @@ import Copyright from "./copyright";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../features/user/userSlice";
+import axios from "axios";
 
 export default function SignInSide() {
   const dispatch = useDispatch();
@@ -33,13 +34,31 @@ export default function SignInSide() {
       email: data.get("email"),
       role: userRole,
     };
-    dispatch(updateUser(formData));
-    if (userRole === "dispatcher") {
-      navigate("/dispatcher");
-    } else if (userRole === "customer") {
-      navigate("/customer");
-    } else if (userRole === "deliverer") {
-      navigate("/deliverer");
+    try {
+      axios
+        .post(`http://${process.env.REACT_APP_API_URL}/auth`, {
+          email: data.get("email"),
+          password: data.get("password"),
+        })
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("email", data.get("email"));
+          dispatch(updateUser(formData));
+          if (userRole === "dispatcher") {
+            navigate("/dispatcher");
+          } else if (userRole === "customer") {
+            navigate("/customer");
+          } else if (userRole === "deliverer") {
+            navigate("/deliverer");
+          }
+        })
+        .catch((error) => {
+          alert("Wrong email or password");
+          console.log(error);
+        });
+    } catch (error) {
+      alert("Wrong email or password");
+      console.log(error);
     }
   };
 

@@ -29,6 +29,7 @@ export const addOrder = createAsyncThunk(
       );
       return resp.data;
     } catch (error) {
+      alert("Box Already in use");
       return thunkAPI.rejectWithValue("something went wrong");
     }
   }
@@ -38,8 +39,8 @@ export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
   async (id, thunkAPI) => {
     try {
-      const resp = await axios.delete(
-        `http://${process.env.REACT_APP_API_URL}/order`,
+      const resp = await axios.post(
+        `http://${process.env.REACT_APP_API_URL}/order/delete`,
         id
       );
       return resp.data;

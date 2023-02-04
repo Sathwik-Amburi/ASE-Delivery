@@ -28,6 +28,7 @@ export default function FormDialog() {
     // Get the form data
     const data = new FormData(event.currentTarget);
     const formData = {
+      boxNumber: parseInt(data.get("boxNumber")),
       dispatcherId: data.get("dispatcherEmail"),
       delivererId: data.get("delivererEmail"),
       clientId: data.get("clientEmail"),
@@ -56,6 +57,15 @@ export default function FormDialog() {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
+            <FormControl fullWidth>
+              <TextField
+                id="boxNumber"
+                label="Box Number"
+                variant="outlined"
+                name="boxNumber"
+                fullWidth
+              />
+            </FormControl>
             <FormControl fullWidth>
               <InputLabel id="dispatcherEmail">Dispatcher Email</InputLabel>
               <Select

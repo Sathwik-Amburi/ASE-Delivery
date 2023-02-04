@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.tum.ase.project.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestController
 public class AuthController {
 
-    @Autowired private AuthService authService;
 
+    @Autowired private AuthService authService;
+    @CrossOrigin
     @PostMapping("/auth")
     public String authenticate(@RequestBody ObjectNode json) {
         String email;

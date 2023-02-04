@@ -20,11 +20,13 @@ export default function BasicTable() {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Box ID</TableCell>
+            <TableCell>Order ID</TableCell>
+            <TableCell align="right">Box Number</TableCell>
             <TableCell align="right">Dispatcher Email</TableCell>
             <TableCell align="right">Deliverer Email</TableCell>
             <TableCell align="right">Customer Email</TableCell>
             <TableCell align="right">Street</TableCell>
+
             <TableCell align="right">Order Status</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
@@ -38,10 +40,12 @@ export default function BasicTable() {
               <TableCell component="th" scope="row">
                 {order.id}
               </TableCell>
+              <TableCell align="right">{order.boxNumber}</TableCell>
               <TableCell align="right">{order.dispatcher.email}</TableCell>
               <TableCell align="right">{order.deliverer.email}</TableCell>
               <TableCell align="right">{order.client.email}</TableCell>
               <TableCell align="right">{order.street}</TableCell>
+
               <TableCell align="right">
                 <Button variant="outlined">{order.orderStatus}</Button>
               </TableCell>
