@@ -32,6 +32,12 @@ def main_loop():
         server_address=const.SERVER_ADDRESS,
         box_number=const.BOX_NUMBER)
 
+    with open("conf.json") as f:
+        data = json.load(f)
+        id = data["id"]
+        name = data["name"]
+        address = data["address"]
+
     print('Main loop is running')
 
     delivered = False
