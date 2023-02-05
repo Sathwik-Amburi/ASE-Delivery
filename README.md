@@ -1,6 +1,6 @@
 # 😠🐟 Angryfish ASE Delivery Project - WS22/23
 
-## Docker: deploying (+running) locally
+## deploying (+running) locally with docker
 
 All of our services are available as images from Docker Hub.
 To pull, deploy and run them, execute the following command in the project root.
@@ -19,16 +19,6 @@ In your browser, access:
 ```bash
 localhost:3000
 ```
-If you want to use frontend locally, just go to the directory frontend directly.
-```bash
-npm i
-```
-
-```bash
-npm start
-```
-Note: you have to change the backend server URL in the .env file if you're using a backend hosted locally. 
-
 
 ## accessing the frontend over ngrok
 
@@ -40,3 +30,20 @@ Navigate to the `Status` page. The ngrok URL of the frontend should look somethi
 ```bash
 https://b6a7-212-114-229-241.ngrok.io
 ```
+
+## building docker images
+Before building docker images, make sure that the services are looking for eachother using their hostnames (`java-backend`, `mongodb`, etc.) in the docker network, instead of `localhost`.
+
+In the `frontend/.env` file, look for the following line.
+```bash
+REACT_APP_API_URL=java-backend:8080
+```
+
+In the `JavaBackend/src/main/resources/application.properties` file, look for the following line.
+```bash
+spring.data.mongodb.host=mongodb
+```
+
+## running locally without docker
+Instructions on how to run each service locally can be found in the `README.md` files the root directories of the respective services.
+This includes instructions on how to change the hostnames to `localhost`.
