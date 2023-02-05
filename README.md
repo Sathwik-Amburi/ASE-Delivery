@@ -44,6 +44,15 @@ In the `JavaBackend/src/main/resources/application.properties` file, look for th
 spring.data.mongodb.host=mongodb
 ```
 
+In the `auth-service/src/main/resources/application.properties` file, look for the following line.
+```bash
+spring.data.mongodb.host=mongodb
+```
+
 ## running locally without docker
 Instructions on how to run each service locally can be found in the `README.md` files the root directories of the respective services.
 This includes instructions on how to change the hostnames to `localhost`.
+
+- frontend/README.md
+- JavaBackend/README.md
+- auth-service/README.md

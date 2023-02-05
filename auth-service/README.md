@@ -1,9 +1,21 @@
-# auth-service
+# running auth-service locally
+Make sure that the frontend is looking for the delivery service on `localhost`.
+
+In the `frontend/.env` file look for the following line.
+```bash
+REACT_APP_API_URL=localhost:8080
+```
 
 ## build .jar
 To build, run in the `/auth-service` directory.
 ```bash
 mvn clean install -DskipTests
+```
+
+## access auth-service
+The auth-service is now available at:
+```
+localhost:8080
 ```
 
 ## build docker image
