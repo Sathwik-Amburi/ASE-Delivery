@@ -90,6 +90,7 @@ const orderSlice = createSlice({
       })
       .addCase(addOrder.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.orderList.push(action.payload);
       })
       .addCase(addOrder.rejected, (state) => {
         state.isLoading = false;
@@ -99,6 +100,7 @@ const orderSlice = createSlice({
       })
       .addCase(deleteOrder.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.orderList.pop(action.payload);
       })
       .addCase(deleteOrder.rejected, (state) => {
         state.isLoading = false;

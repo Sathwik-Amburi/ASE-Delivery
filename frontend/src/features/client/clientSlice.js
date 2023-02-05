@@ -92,7 +92,6 @@ const clientSlice = createSlice({
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
         state.isLoading = false;
-        getClients();
       })
       .addCase(deleteClient.rejected, (state) => {
         state.isLoading = false;
