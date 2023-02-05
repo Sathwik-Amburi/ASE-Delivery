@@ -234,8 +234,9 @@ curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1c
     << status code 406
        {"timestamp":"2023-01-10T10:24:00.980+00:00","status":406,"error":"Not Acceptable","path":"/order"}
 
+## build and push
 
-### builds /target/java-backend.jar (from the `JavaBackend/` folder)
+### build /target/java-backend.jar (from the `JavaBackend/` folder)
 ```bash
 export PATH="/opt/apache-maven-3.6.3/bin:$PATH"
 JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
@@ -246,6 +247,6 @@ JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
 docker login -u angryfishproject -p angryfish500
 
 docker build -t angryfishproject/backend .
-docker push angryfishproject/backend 
+docker push angryfishproject/backend:latest 
 ```
 
