@@ -10,7 +10,6 @@ class ActorType(Enum):
     DELIVERER = 0
     CLIENT = 1
     ANY = 2
-    DISPATCHER = 3;
 
 
 class ServerCommunicator:
