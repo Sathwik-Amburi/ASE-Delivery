@@ -22,7 +22,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     Optional<Order> findByDelivererIdAndOrderStatus(String delivererId, OrderStatus orderStatus);
 
     @Query("{'boxNumber': ?0, 'orderStatus' : {'$ne': 'Delivered'}}")
-    Optional<Order> getUndeliveredByBoxNumber(int boxNumber);
+    List<Order> getUndeliveredByBoxNumber(int boxNumber);
 
 
     Optional<Order> findByOrderStatus(OrderStatus orderStatus);

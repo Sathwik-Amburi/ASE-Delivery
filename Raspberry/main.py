@@ -66,14 +66,13 @@ def main_loop():
         controller.switch_led(LEDState.GREEN)
 
         if closed_correctly(time_opened=time_opened, controller=controller):
-            communicator.change_order_status(order_id=order_id, status_str=status_str);
+            communicator.change_orders_status(order_ids=order_id, status_str=status_str)
 
         else: # box was not closed correctly
              controller.blink_led(LEDState.RED, 5)
              controller.switch_led(LEDState.OFF)
 
         controller.switch_led(LEDState.OFF)
-
 
 
 if __name__ == '__main__':

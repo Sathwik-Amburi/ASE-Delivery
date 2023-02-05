@@ -1,5 +1,6 @@
 import os
 from enum import Enum
+from typing import List
 
 import requests
 
@@ -36,9 +37,10 @@ class ServerCommunicator:
             f'INFO: The response of the query "{url}", data: "{self.data_params_id}" is incorrect. ' \
             f'{response.status_code}: {response.text}'
         response_json = response.json()
-        order_id = response_json['id']
-        deliverer_id = response_json['deliverer']['id']
-        client_id = response_json['client']['id']
+
+        order_ids = list(order_item['id'] for order_item in response_json)
+        deliverer_id = response_json[0]['deliverer']['id']
+        client_id = response_json[0]['client']['id']
 
         if a_type == ActorType.DELIVERER:
             result = (deliverer_id == actor_id)
@@ -49,20 +51,21 @@ class ServerCommunicator:
         else:
             raise NotImplemented(f'The check for {a_type} is not implemented')
 
-        return result, order_id
+        return result, order_ids
 
-    def change_order_status(self, order_id: str, status_str: str) -> bool:
+    def change_orders_status(self, order_ids: List[str], status_str: str) -> bool:
         # status_str is STATUS_DELIVERED or STATUS_ONITSWAY
         url = os.path.join(self.server_address, 'order')
-        params = {'orderId': order_id, 'newOrderStatus': status_str}
-        response = self.session.put(url, headers=self.header, json=params)
-        print(f'INFO for change_order_status\nURL: "{url}", DATA: {params}\n'
-              f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
-        if response.status_code != 200:
-            print(
-                f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}')
-            return False
-        print(f'The statis "Delivered" is set to {order_id} order')
+        for order_id in order_ids:
+            params = {'orderId': order_id, 'newOrderStatus': status_str}
+            response = self.session.put(url, headers=self.header, json=params)
+            print(f'INFO for change_order_status\nURL: "{url}", DATA: {params}\n'
+                  f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
+            if response.status_code != 200:
+                print(
+                    f'INFO: The response of the query "{url}" is incorrect. {response.status_code}: {response.text}')
+                return False
+            print(f'The statis "Delivered" is set to {order_id} order')
         return True
 
 
@@ -74,6 +77,6 @@ if __name__ == '__main__':
     kek1 = serverCommunicator.check_person_name(actor_id="63c1778662cd023293ebaaa1", a_type=ActorType.CLIENT)
     print(kek1)
 
-    order_id = kek1[1]
-    kek2 = serverCommunicator.change_order_status(order_id=order_id)
+    _, received_order_ids = kek1
+    kek2 = serverCommunicator.change_orders_status(order_ids=received_order_ids, status_str=const.STATUS_DELIVERED)
     print(kek2)

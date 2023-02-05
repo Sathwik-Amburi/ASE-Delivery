@@ -23,9 +23,14 @@ public class OrderService {
 
     public Order createOrder(String dispatcherId, String delivererId, String clientId, int boxNumber, String street)
             throws WrongObject {
-        Optional<Order> order = orderRepository.getUndeliveredByBoxNumber(boxNumber);
+
+        // it is prohibited to create several orders with the same boxes but for different clients
+        Optional<Order> order = this.getOneUndelivOrderByBoxNumber(boxNumber);
         if (order.isPresent()) {
-            throw new WrongObject(String.format("The box %d in already taken", boxNumber));
+            String ordersClientId = order.get().getClient().getId();
+            if (!ordersClientId.equals(clientId)){
+                throw new WrongObject(String.format("The box %d in already taken", boxNumber));
+            }
         }
 
         Optional<Actor> dispatcher = actorRepository.findByIdAndActorType(dispatcherId, ActorType.dispatcher);
@@ -59,8 +64,18 @@ public class OrderService {
         };
     }
 
-    public Optional<Order> getUndelivOrderByBoxNumber(int boxNumber) {
+    public List<Order> getUndelivOrderByBoxNumber(int boxNumber) {
         return orderRepository.getUndeliveredByBoxNumber(boxNumber);
+    }
+
+    public Optional<Order> getOneUndelivOrderByBoxNumber(int boxNumber) {
+        List<Order> orders  = orderRepository.getUndeliveredByBoxNumber(boxNumber);
+        if (orders.isEmpty()){
+            return Optional.empty();
+        }
+        else {
+            return Optional.ofNullable(orders.get(0));
+        }
     }
     public Order updateOrderStatus(String orderId, OrderStatus orderStatus) throws WrongObject {
         Optional<Order> order = orderRepository.findById(orderId);
