@@ -3,6 +3,27 @@
 Install mongo according to 
 https://www.moodle.tum.de/pluginfile.php/4245898/mod_folder/content/0/Exercise_Sheet_03.pdf
 
+## How to run inside a docker
+```bash
+docker-compose up mongodb java-backend
+#docker exec -it fish_mongodb_1 bash  # connect to the container
+```
+
+## How to build and push the backend docker container
+
+### build /target/java-backend.jar (from the `JavaBackend/` folder)
+```bash
+export PATH="/opt/apache-maven-3.6.3/bin:$PATH"
+JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
+
+docker login -u angryfishproject -p angryfish500
+
+docker build -t angryfishproject/backend .
+docker push angryfishproject/backend:latest 
+```
+
+## Some scrips to debug
+
 ```bash
 mongod  # run mongo server
 mongosh --port 27017  # mongo shell
@@ -17,29 +38,6 @@ show dbs
 use test
 show collections
 ```
-
-## How to run inside a docker
-```bash
-docker-compose up mongodb java-backend
-docker exec -it fish_mongodb_1 bash  # connect to the container
-```
-
-## build and push
-
-### build /target/java-backend.jar (from the `JavaBackend/` folder)
-```bash
-export PATH="/opt/apache-maven-3.6.3/bin:$PATH"
-JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
-```
-
-### build docker container
-```bash
-docker login -u angryfishproject -p angryfish500
-
-docker build -t angryfishproject/backend .
-docker push angryfishproject/backend:latest 
-```
-
 
 # How to test API (small example)
 ```bash
@@ -62,7 +60,7 @@ curl -X GET localhost:8080/order
 
 curl -X PUT -H "Content-Type: application/json" -d '{"orderId": "63c177e562cd023293ebaaa3", "newOrderStatus": "Delivered"}' localhost:8080/order
 
-curl -X DELETE -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1ca04e2b3f573a"}' localhost:8080/client
+curl -X POST -H "Content-Type: application/json" -d '{"actorId": "638d268e2b1ca04e2b3f573a"}' localhost:8080/client/delete
 ```
 # The whole API documentation
 
