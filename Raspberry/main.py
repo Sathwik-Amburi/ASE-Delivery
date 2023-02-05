@@ -40,31 +40,31 @@ def main_loop():
         if delivered:
             RFID_result, order_id = check_RFID_name(
                 controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
+
+            delivered = False
+            status_str = const.STATUS_DELIVERED
         else:
             RFID_result, order_id = check_RFID_name(
                 controller=controller, communicator=communicator, p_type=ActorType.DELIVERER)
-            if RFID_result:
-                delivered = True
 
-        if RFID_result:
-            time_opened = datetime.now()
-            controller.switch_led(LEDState.GREEN)
+            delivered = True
+            status_str = const.STATUS_ONITSWAY
 
-            if closed_correctly(time_opened=time_opened, controller=controller):
-                status_str = const.STATUS_DELIVERED
-
-                if delivered:
-                    status_str = const.STATUS_ONITSWAY
-                    delivered = False
-
-                communicator.change_order_status(order_id=order_id, status_str=status_str);
-            else: # box was not closed correctly
-                controller.blink_led(LEDState.RED, 5)
-                controller.switch_led(LEDState.OFF)
-
-        else:
+        if not RFID_result:
             controller.switch_led(LEDState.RED)
             time.sleep(5)
+            controller.switch_led(LEDState.OFF)
+            continue
+
+        time_opened = datetime.now()
+        controller.switch_led(LEDState.GREEN)
+
+        if closed_correctly(time_opened=time_opened, controller=controller):
+            communicator.change_order_status(order_id=order_id, status_str=status_str);
+
+        else: # box was not closed correctly
+             controller.blink_led(LEDState.RED, 5)
+             controller.switch_led(LEDState.OFF)
 
         controller.switch_led(LEDState.OFF)
 
