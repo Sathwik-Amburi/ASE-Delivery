@@ -10,7 +10,7 @@ docker-compose up -d
 This includes the following images corresponding to our services.
 - angryfish/frontend (frontend service)
 - angryfish/backend (delivery+mail service)
-- angryfish/auth (authentication service)
+- angryfish/authservice (authentication service)
 - mongoDB
 - ngrok
 
