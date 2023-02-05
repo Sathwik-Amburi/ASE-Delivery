@@ -17,10 +17,10 @@ def check_RFID_name(controller: HardwareController,
     return result, order_id
 
 
-def handle_opened(order_id, time_opened, controller, communicator) -> bool:
+def handle_opened(order_id, time_opened, status_str, controller, communicator) -> bool:
     while datetime.now() - time_opened <= timedelta(seconds=10):  # fewer than 10s have passed since opening the box
         if controller.check_box_state() == BoxState.CLOSED:
-            communicator.set_order_delivered(order_id=order_id)
+            communicator.change_order_status(order_id=order_id, status_str=status_str)
             return True
 
         time.sleep(0.25)
@@ -37,14 +37,41 @@ def main_loop():
     print('Main loop is running')
     while True:
         RFID_result, order_id = check_RFID_name(
-            controller=controller, communicator=communicator, p_type=ActorType.ANY)
+            controller=controller, communicator=communicator, p_type=ActorType.DELIVERER)
+
         if RFID_result:
             time_opened = datetime.now()
             controller.switch_led(LEDState.GREEN)
 
-            if not handle_opened(order_id=order_id, time_opened=time_opened,
+            if not handle_opened(order_id=order_id, time_opened=time_opened, status_str=const.STATUS_ONITSWAY,
                                  controller=controller, communicator=communicator):
                 controller.blink_led(LEDState.RED, 5)
+                controller.switch_led(LEDState.OFF)
+            break
+
+        else:
+            controller.switch_led(LEDState.RED)
+            time.sleep(5)
+
+        controller.switch_led(LEDState.OFF)
+
+
+        #  --------------------- the same logic, but for the customer
+
+    time.sleep(5)
+    while True:
+        RFID_result, order_id = check_RFID_name(
+            controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
+
+        if RFID_result:
+            time_opened = datetime.now()
+            controller.switch_led(LEDState.GREEN)
+
+            if not handle_opened(order_id=order_id, time_opened=time_opened, status_str=const.STATUS_DELIVERED,
+                                 controller=controller, communicator=communicator):
+                controller.blink_led(LEDState.RED, 5)
+                controller.switch_led(LEDState.OFF)
+                break
 
         else:
             controller.switch_led(LEDState.RED)

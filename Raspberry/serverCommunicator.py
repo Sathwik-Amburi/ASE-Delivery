@@ -51,11 +51,12 @@ class ServerCommunicator:
 
         return result, order_id
 
-    def set_order_delivered(self, order_id: str) -> bool:
+    def change_order_status(self, order_id: str, status_str: str) -> bool:
+        # status_str is STATUS_DELIVERED or STATUS_ONITSWAY
         url = os.path.join(self.server_address, 'order')
-        params = {'orderId': order_id, 'newOrderStatus': 'Delivered'}
+        params = {'orderId': order_id, 'newOrderStatus': status_str}
         response = self.session.put(url, headers=self.header, json=params)
-        print(f'INFO for set_order_delivered\nURL: "{url}", DATA: {params}\n'
+        print(f'INFO for change_order_status\nURL: "{url}", DATA: {params}\n'
               f'STATUS_CODE: {response.status_code}, TEXT: {response.text}\n')
         if response.status_code != 200:
             print(
@@ -68,11 +69,11 @@ class ServerCommunicator:
 if __name__ == '__main__':
     # test ServerCommunicator
     serverCommunicator = ServerCommunicator(
-        server_address="http://127.0.0.1:8080", box_number=const.RASP_NAME, rasp_pass=const.RASP_PASS)
+        server_address="http://127.0.0.1:8080", box_number=const.BOX_NUMBER)
 
     kek1 = serverCommunicator.check_person_name(actor_id="63c1778662cd023293ebaaa1", a_type=ActorType.CLIENT)
     print(kek1)
 
     order_id = kek1[1]
-    kek2 = serverCommunicator.set_order_delivered(order_id=order_id)
+    kek2 = serverCommunicator.change_order_status(order_id=order_id)
     print(kek2)
