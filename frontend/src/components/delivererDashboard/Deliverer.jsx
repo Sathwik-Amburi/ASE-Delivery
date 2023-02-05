@@ -8,12 +8,19 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
+import { setUserEmail, getuserOrderList } from "../../features/user/orderSlice";
 
 export default function BasicTable() {
+  const dispatch = useDispatch();
+  const email = localStorage.getItem("email");
   const { userOrderList } = useSelector((state) => state.usertOrders);
+  dispatch(setUserEmail(email));
+  React.useEffect(() => {
+    dispatch(getuserOrderList({ role: "client", email: email }));
+  }, [dispatch, email]);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>

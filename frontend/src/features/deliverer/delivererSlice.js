@@ -97,7 +97,6 @@ const delivererSlice = createSlice({
           (deliverer) => deliverer._id !== action.payload
         );
       })
-
       .addCase(deleteDeliverer.rejected, (state) => {
         state.isLoading = false;
       });
