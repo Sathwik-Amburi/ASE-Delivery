@@ -16,7 +16,6 @@ build-frontend:
     - npm i
   only:
     changes:
-      - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
 build-backend:
@@ -30,7 +29,6 @@ build-backend:
       - $BACKEND_DIR/target
   only:
     changes:
-      - $BACKEND_DIR/Dockerfile
       - $BACKEND_DIR/**/*
 
 build-authservice:
@@ -63,7 +61,6 @@ publish-frontend:
     - docker push $IMG_NAME:$IMG_TAG
   only:
     changes:
-      - $FRONTEND_DIR/Dockerfile
       - $FRONTEND_DIR/**/*
 
 publish-backend:
