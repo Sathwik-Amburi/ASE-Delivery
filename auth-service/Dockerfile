@@ -1,4 +1,4 @@
 FROM amazoncorretto:19
-ADD target/java-backend.jar java-backend.jar
+ADD target/auth-service.jar auth-service.jar
 #EXPOSE 8080:8080
-ENTRYPOINT ["java", "-jar", "java-backend.jar"]
+ENTRYPOINT ["java", "-jar", "auth-service.jar"]
