@@ -39,12 +39,14 @@ def main_loop():
     while True:
         if delivered:
             RFID_result, order_id = check_RFID_name(
+                print("customer has a delivery")
                 controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
 
             delivered = False
             status_str = const.STATUS_DELIVERED
         else:
             RFID_result, order_id = check_RFID_name(
+                print("deliverer delivery package")
                 controller=controller, communicator=communicator, p_type=ActorType.DELIVERER)
 
             delivered = True
