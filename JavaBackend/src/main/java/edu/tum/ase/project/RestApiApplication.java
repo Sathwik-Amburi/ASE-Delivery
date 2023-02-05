@@ -3,6 +3,7 @@ package edu.tum.ase.project;
 import com.mongodb.client.MongoClient;
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.service.ActorService;
+import edu.tum.ase.project.service.OrderService;
 import edu.tum.ase.project.utils.ActorType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,9 @@ public class RestApiApplication implements CommandLineRunner {
 	@Autowired
 	ActorService actorService;
 
+	@Autowired
+	OrderService orderService;
+
 	private static final String defaultDispatcherPass = "sathwik";
 	private static final String defaultDispatcherEmail = "sathwik@gmail.ru";
 
@@ -37,11 +41,5 @@ public class RestApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
-
-		// Add a default user if it does not exist
-		Optional<Actor> actor = actorService.findByActorTypeAndEmail(defaultDispatcherEmail, ActorType.dispatcher);
-		if (actor.isEmpty()){
-			actorService.createActor(defaultDispatcherEmail, defaultDispatcherPass, ActorType.dispatcher);
-		}
 	}
 }
