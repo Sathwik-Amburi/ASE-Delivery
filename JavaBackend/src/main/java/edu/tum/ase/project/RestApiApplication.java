@@ -41,5 +41,10 @@ public class RestApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
+
+		Optional<Actor> actor = actorService.findByActorTypeAndEmail(defaultDispatcherEmail, ActorType.dispatcher);
+		if (actor.isEmpty()) {
+			actorService.createActor(defaultDispatcherEmail, defaultDispatcherPass, ActorType.dispatcher);
+		}
 	}
 }
