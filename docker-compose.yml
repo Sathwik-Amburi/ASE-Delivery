@@ -27,7 +27,7 @@ services:
   ngrok-frontend:
     image: wernight/ngrok:latest
     environment:
-      NGROK_AUTH: 2KxZh1JbE3CNitykVxg4w0StpxU_2pG59a9SUsc7UUC53fWm6
+      NGROK_AUTH: 2KxrQy1xCXZeBulhFDCVokRkdKr_3SHKszcbzMisvt9iDStYn
       NGROK_PROTOCOL: http
       NGROK_PORT: 3000
       NGROK_LOOK_DOMAIN: "react-frontend"
