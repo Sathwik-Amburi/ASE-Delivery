@@ -1,6 +1,6 @@
 # 😠🐟 Angryfish ASE Delivery Project - WS22/23
 
-## deploying (+running) locally
+## Docker: deploying (+running) locally
 
 All of our services are available as images from Docker Hub.
 To pull, deploy and run them, execute the following command in the project root.
@@ -19,6 +19,16 @@ In your browser, access:
 ```bash
 localhost:3000
 ```
+If you want to use frontend locally, just go to the directory frontend directly.
+```bash
+npm i
+```
+
+```bash
+npm start
+```
+Note: you have to change the backend server URL in the .env file if you're using a backend hosted locally. 
+
 
 ## accessing the frontend over ngrok
 
