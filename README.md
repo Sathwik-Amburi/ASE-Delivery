@@ -52,19 +52,6 @@ docker-compose up mongodb java-backend
 #docker exec -it fish_mongodb_1 bash  # connect to the container
 ```
 
-## How to build and push the backend docker container
-
-### build /target/java-backend.jar (from the `JavaBackend/` folder)
-```bash
-export PATH="/opt/apache-maven-3.6.3/bin:$PATH"
-JAVA_HOME=/home/omar/.jdks/openjdk-19.0.1/ mvn package -DskipTests
-
-docker login -u angryfishproject -p angryfish500
-
-docker build -t angryfishproject/backend .
-docker push angryfishproject/backend:latest 
-```
-
 ## Some scrips to debug
 
 ```bash
