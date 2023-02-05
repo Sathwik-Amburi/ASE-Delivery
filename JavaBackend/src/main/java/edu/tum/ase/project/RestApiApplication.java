@@ -3,6 +3,7 @@ package edu.tum.ase.project;
 import com.mongodb.client.MongoClient;
 import edu.tum.ase.project.model.Actor;
 import edu.tum.ase.project.service.ActorService;
+import edu.tum.ase.project.service.OrderService;
 import edu.tum.ase.project.utils.ActorType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,9 @@ public class RestApiApplication implements CommandLineRunner {
 	@Autowired
 	ActorService actorService;
 
+	@Autowired
+	OrderService orderService;
+
 	private static final String defaultDispatcherPass = "sathwik";
 	private static final String defaultDispatcherEmail = "sathwik@gmail.ru";
 
@@ -38,10 +42,19 @@ public class RestApiApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
 
-		// Add a default user if it does not exist
-		Optional<Actor> actor = actorService.findByActorTypeAndEmail(defaultDispatcherEmail, ActorType.dispatcher);
-		if (actor.isEmpty()){
-			actorService.createActor(defaultDispatcherEmail, defaultDispatcherPass, ActorType.dispatcher);
-		}
+
+		actorService.createActor("1", "1", ActorType.dispatcher);
+
+		actorService.createActor("2", "2", ActorType.deliverer);
+
+		actorService.createActor("3", "3", ActorType.client);
+
+		Optional<Actor> disp = actorService.findByActorTypeAndEmail("1", ActorType.dispatcher);
+
+		Optional<Actor> del = actorService.findByActorTypeAndEmail("2", ActorType.deliverer);
+
+		Optional<Actor> client = actorService.findByActorTypeAndEmail("3", ActorType.client);
+
+		orderService.createOrder(disp.get().getId(), del.get().getId(), client.get().getId(),13, "First Street");
 	}
 }
