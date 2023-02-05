@@ -28,7 +28,8 @@ public class OrderService {
         Optional<Order> order = this.getOneUndelivOrderByBoxNumber(boxNumber);
         if (order.isPresent()) {
             String ordersClientId = order.get().getClient().getId();
-            if (!ordersClientId.equals(clientId)){
+            String ordersDelivererId = order.get().getDeliverer().getId();
+            if (!ordersClientId.equals(clientId) || !ordersDelivererId.equals(delivererId)){
                 throw new WrongObject(String.format("The box %d in already taken", boxNumber));
             }
         }
