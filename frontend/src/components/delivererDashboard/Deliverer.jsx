@@ -8,16 +8,29 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import { setUserEmail, getuserOrderList } from "../../features/user/orderSlice";
+import {
+  setUserEmail,
+  getUserData,
+  getuserOrderList,
+} from "../../features/user/orderSlice";
+import { useEffect } from "react";
+import QRCode from "./QRCode";
 
 export default function BasicTable() {
   const dispatch = useDispatch();
   const email = localStorage.getItem("email");
   const { userOrderList } = useSelector((state) => state.usertOrders);
+  const { id } = useSelector((state) => state.usertOrders);
+
   dispatch(setUserEmail(email));
-  React.useEffect(() => {
-    dispatch(getuserOrderList({ role: "client", email: email }));
+
+  useEffect(() => {
+    dispatch(getUserData({ role: "deliverer", email: email }));
   }, [dispatch, email]);
+
+  useEffect(() => {
+    dispatch(getuserOrderList({ role: "deliverer", actorId: id }));
+  }, [dispatch, id]);
 
   return (
     <TableContainer>
@@ -30,6 +43,7 @@ export default function BasicTable() {
             <TableCell align="right">Customer Email</TableCell>
             <TableCell align="right">Street</TableCell>
             <TableCell align="right">Order Status</TableCell>
+            <TableCell align="right">QR Code</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,6 +61,9 @@ export default function BasicTable() {
               <TableCell align="right">{order.street}</TableCell>
               <TableCell align="right">
                 <Button variant="outlined">{order.orderStatus}</Button>
+              </TableCell>
+              <TableCell align="right">
+                <QRCode orderId={order.id} />
               </TableCell>
             </TableRow>
           ))}

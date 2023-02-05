@@ -9,12 +9,10 @@ import IconButton from "@mui/material/IconButton";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { resetUser } from "../features/user/userSlice";
+import { useEffect } from "react";
 
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const [email, setEmail] = React.useState("GUEST");
-  const [loggedIn, setLoggedIn] = React.useState(false);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -26,19 +24,16 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             AngryFish
           </Typography>
-          <Typography> {user.email} </Typography>
-          {user.email !== "Guest" && (
-            <Button
-              color="inherit"
-              href="/"
-              onClick={() => {
-                localStorage.clear();
-                dispatch(resetUser());
-              }}
-            >
-              Log out
-            </Button>
-          )}
+          <Button
+            color="inherit"
+            href="/"
+            onClick={() => {
+              localStorage.clear();
+              dispatch(resetUser());
+            }}
+          >
+            Log out
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

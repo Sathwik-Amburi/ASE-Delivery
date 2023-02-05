@@ -25,16 +25,15 @@ export default function SignInSide() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     localStorage.setItem("email", data.get("email"));
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      role: userRole,
-    });
     const formData = {
       email: data.get("email"),
       role: userRole,
     };
     try {
+      console.log({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
       axios
         .post(`http://${process.env.REACT_APP_API_URL}/auth`, {
           email: data.get("email"),
@@ -57,7 +56,7 @@ export default function SignInSide() {
           console.log(error);
         });
     } catch (error) {
-      alert("Wrong email or password");
+      alert("something went wrong!");
       console.log(error);
     }
   };
