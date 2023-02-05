@@ -40,17 +40,21 @@ def main_loop():
         if delivered:
             RFID_result, order_id = check_RFID_name(
                 controller=controller, communicator=communicator, p_type=ActorType.CLIENT)
-            print("customer has a delivery")
 
-            delivered = False
-            status_str = const.STATUS_DELIVERED
+            if RFID_result:
+                print("customer has a delivery")
+
+                delivered = False
+                status_str = const.STATUS_DELIVERED
         else:
             RFID_result, order_id = check_RFID_name(
                 controller=controller, communicator=communicator, p_type=ActorType.DELIVERER)
-            print("deliverer delivery package")
 
-            delivered = True
-            status_str = const.STATUS_ONITSWAY
+            if RFID_result:
+                print("deliverer delivery package")
+
+                delivered = True
+                status_str = const.STATUS_ONITSWAY
 
         if not RFID_result:
             controller.switch_led(LEDState.RED)
