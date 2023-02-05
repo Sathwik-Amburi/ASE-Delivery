@@ -41,20 +41,5 @@ public class RestApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("MongoClient = " + mongoClient.getClusterDescription());
-
-
-		actorService.createActor("1", "1", ActorType.dispatcher);
-
-		actorService.createActor("2", "2", ActorType.deliverer);
-
-		actorService.createActor("3", "3", ActorType.client);
-
-		Optional<Actor> disp = actorService.findByActorTypeAndEmail("1", ActorType.dispatcher);
-
-		Optional<Actor> del = actorService.findByActorTypeAndEmail("2", ActorType.deliverer);
-
-		Optional<Actor> client = actorService.findByActorTypeAndEmail("3", ActorType.client);
-
-		orderService.createOrder(disp.get().getId(), del.get().getId(), client.get().getId(),13, "First Street");
 	}
 }
