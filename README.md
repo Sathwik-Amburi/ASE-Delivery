@@ -3,14 +3,14 @@
 ## deploying (+running) locally
 
 All of our services are available as images from Docker Hub.
-To pull, deploy and run them, execute the following command.
+To pull, deploy and run them, execute the following command in the project root.
 ```bash
 docker-compose up -d
 ```
 This includes the following images corresponding to our services.
 - angryfish/frontend (frontend service)
 - angryfish/backend (delivery+mail service)
-- (TODO)angryfish/auth (authentication service)
+- angryfish/auth (authentication service)
 - mongoDB
 - ngrok
 
@@ -30,4 +30,3 @@ Navigate to the `Status` page. The ngrok URL of the frontend should look somethi
 ```bash
 https://b6a7-212-114-229-241.ngrok.io
 ```
-
