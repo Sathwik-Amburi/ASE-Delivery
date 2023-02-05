@@ -43,6 +43,8 @@ def main_loop():
         else:
             RFID_result, order_id = check_RFID_name(
                 controller=controller, communicator=communicator, p_type=ActorType.DELIVERER)
+            if RFID_result:
+                delivered = True
 
         if RFID_result:
             time_opened = datetime.now()
@@ -50,7 +52,6 @@ def main_loop():
 
             if closed_correctly(time_opened=time_opened, controller=controller):
                 status_str = const.STATUS_DELIVERED
-                delivered = True
 
                 if delivered:
                     status_str = const.STATUS_ONITSWAY
