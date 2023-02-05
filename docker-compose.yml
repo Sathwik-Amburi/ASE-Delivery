@@ -24,10 +24,15 @@ services:
     ports:
       - "3000:3000"
 
+  auth-service:
+      image: angryfishproject/authservice:latest
+      ports:
+        - "8081:8080"
+
   ngrok-frontend:
     image: wernight/ngrok:latest
     environment:
-      NGROK_AUTH: 2KxZh1JbE3CNitykVxg4w0StpxU_2pG59a9SUsc7UUC53fWm6
+      NGROK_AUTH: 2KxrQy1xCXZeBulhFDCVokRkdKr_3SHKszcbzMisvt9iDStYn
       NGROK_PROTOCOL: http
       NGROK_PORT: 3000
       NGROK_LOOK_DOMAIN: "react-frontend"
@@ -42,3 +47,12 @@ services:
       NGROK_LOOK_DOMAIN: "java-backend"
     ports:
       - "4041:4040"
+
+  ngrok-authservice:
+    image: wernight/ngrok:latest
+    environment:
+      NGROK_PROTOCOL: http
+      NGROK_PORT: 8080
+      NGROK_LOOK_DOMAIN: "auth-service"
+    ports:
+      - "4042:4040"

@@ -1,0 +1,9 @@
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/utils/ActorType.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/utils/ObjectDoesNotExist.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/utils/PropertiesReader.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/service/AuthService.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/utils/OrderStatus.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/controller/AuthController.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/model/Actor.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/RestApiApplication.java
+/home/jonas/angryfish/auth-service/src/main/java/edu/tum/ase/project/repository/ActorRepository.java

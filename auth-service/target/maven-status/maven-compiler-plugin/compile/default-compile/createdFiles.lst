@@ -1,0 +1,9 @@
+edu/tum/ase/project/utils/OrderStatus.class
+edu/tum/ase/project/service/AuthService.class
+edu/tum/ase/project/model/Actor.class
+edu/tum/ase/project/RestApiApplication.class
+edu/tum/ase/project/controller/AuthController.class
+edu/tum/ase/project/utils/ActorType.class
+edu/tum/ase/project/utils/ObjectDoesNotExist.class
+edu/tum/ase/project/repository/ActorRepository.class
+edu/tum/ase/project/utils/PropertiesReader.class
