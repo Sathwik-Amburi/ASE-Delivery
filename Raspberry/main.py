@@ -49,10 +49,10 @@ def main_loop():
             controller.switch_led(LEDState.GREEN)
 
             if closed_correctly(time_opened=time_opened, controller=controller):
-                status_str = "whatever"
+                status_str = const.STATUS_DELIVERED
 
                 if delivered:
-                    status_str = "something else"
+                    status_str = const.STATUS_ONITSWAY
 
                 communicator.change_order_status(order_id=order_id, status_str=status_str)
             else: # box was not closed correctly
